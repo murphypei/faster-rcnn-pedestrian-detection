@@ -22,9 +22,9 @@ case $DATASET in
     # You can probably use fewer iterations and reduce the
     # time to the LR drop (set in the solver to 350,000 iterations).
     TRAIN_IMDB="caltech_all_trainval"
-   
+    TEST_IMDB="caltech_all_test"
     PT_DIR="caltech"
-    ITERS=490000
+    ITERS=120000
     ;;
     reasonable)
     # This is a very long and slow training schedule
@@ -34,7 +34,7 @@ case $DATASET in
     TEST_IMDB="caltech_reasonable_test"
    
     PT_DIR="caltech"
-    ITERS=490000
+    ITERS=70000
     ;;
     person_class_only)
     # This is a very long and slow training schedule
