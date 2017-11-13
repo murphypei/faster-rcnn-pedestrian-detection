@@ -1,4 +1,5 @@
-name: "ResNet-50"
+name: "ResNet50"
+
 input: "data"
 input_shape {
   dim: 1
