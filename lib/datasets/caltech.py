@@ -1,6 +1,6 @@
-
-#This is negative_ignore version of imdb class for Caltech Pedestrian dataset
-
+"""
+This is negative_ignore version of imdb class for Caltech Pedestrian dataset
+"""
 
 import re
 import os
