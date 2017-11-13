@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 set -x    # print exec command to screen.
 set -e    # exit if exec command doesn't return 0.
 
@@ -46,7 +45,7 @@ case $DATASET in
     PT_DIR="caltech"
     ITERS=490000
     ;;
-  *)
+    *)
     echo "No dataset given"
     exit
     ;;
