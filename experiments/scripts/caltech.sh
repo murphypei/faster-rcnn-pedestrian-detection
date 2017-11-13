@@ -1,8 +1,8 @@
 #!/bin/bash
 
 
-set -x
-set -e
+set -x    # print exec command to screen.
+set -e    # exit if exec command doesn't return 0.
 
 export PYTHONUNBUFFERED="True"
 
@@ -11,9 +11,9 @@ NET=$2
 NET_lc=${NET,,}
 DATASET=$3
 
-array=( $@ )                    # all args from command
-len=${#array[@]}
-EXTRA_ARGS=${array[@]:3:$len}   # the index of 3:len(args) args
+array=( $@ )                    # get all args from command as a array
+len=${#array[@]}                # args array length
+EXTRA_ARGS=${array[@]:3:$len}   # get another args after 3 args
 EXTRA_ARGS_SLUG=${EXTRA_ARGS// /_}
 
 case $DATASET in
