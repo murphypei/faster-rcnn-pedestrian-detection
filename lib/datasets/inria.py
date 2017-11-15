@@ -187,7 +187,7 @@ class inria(imdb):
         method_mapper = {
             "reasonable": self.reasonable_index,
             "all": self.all_index,
-            "person_class": self.person_class_index
+            "person": self.person_class_index
         }
 
         image_index = method_mapper[self.version](image_set_list)
@@ -333,7 +333,7 @@ class inria(imdb):
         print(len(bboxes))
 
         verify_methods = {
-            "person_class_only": verify_person_class,
+            "person": verify_person_class,
             "reasonable": verify_reasonable,
             "all": verify_all
         }
@@ -388,7 +388,7 @@ class inria(imdb):
     # This method write results files into Evaluation toolkit format
     def _write_caltech_results_file(self, net):
 
-        #Insert my code in the following space
+        # Insert my code in the following space
 
         # The follwing nested fucntions are for smart sorting
         def atoi(text):

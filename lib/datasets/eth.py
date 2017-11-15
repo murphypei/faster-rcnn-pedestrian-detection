@@ -24,7 +24,6 @@ import cv2
 
 
 class inria(imdb):
-    
     def __init__(self,
                  version,
                  image_set,
@@ -37,7 +36,8 @@ class inria(imdb):
             "include_background": False
         }
         self._image_set = image_set
-        self._devkit_path = self._get_default_path() if devkit_path is None else devkit_path
+        self._devkit_path = self._get_default_path(
+        ) if devkit_path is None else devkit_path
         self._data_path = os.path.join("data", self._devkit_path, 'INRIA')
         self._classes = (
             '__background__',  # always index 0
@@ -45,7 +45,9 @@ class inria(imdb):
         self._class_to_ind = dict(zip(self.classes, xrange(self.num_classes)))
         annotation_path = os.path.join(self._data_path,
                                        "INRIA_annotations.json")
-        assert os.path.exists(annotation_path), 'Annotation path does not exist.: {}'.format(annotation_path)
+        assert os.path.exists(
+            annotation_path), 'Annotation path does not exist.: {}'.format(
+                annotation_path)
 
         self._annotation = json.load(open(annotation_path))
 
@@ -54,7 +56,6 @@ class inria(imdb):
         # Default to roidb handler
         self._roidb_handler = self.selective_search_roidb
         self._salt = str(uuid.uuid4())
-
         '''
         # Caltech Pedestrain specific config options
         self.config = {'cleanup'     : True,
@@ -67,7 +68,9 @@ class inria(imdb):
         # not usre if I should keep this line
         # assert os.path.exists(self._devkit_path), \
         #        'VOCdevkit path does not exist: {}'.format(self._devkit_path)
-        assert os.path.exists(self._data_path), 'Path does not exist: {}'.format(self._data_path)
+        assert os.path.exists(
+            self._data_path), 'Path does not exist: {}'.format(
+                self._data_path)
 
     def image_path_at(self, i):
         """
@@ -82,8 +85,10 @@ class inria(imdb):
 
         image_path = os.path.join(self._data_path, 'images',
                                   index + self._image_ext)
-        assert os.path.exists(image_path), 'Path does not exist: {}'.format(image_path)
+        assert os.path.exists(image_path), 'Path does not exist: {}'.format(
+            image_path)
         return image_path
+
 
 # Strategy: get the index from annotation dictionary
 
@@ -180,8 +185,11 @@ class inria(imdb):
 
         print(image_set_list)
 
-        method_mapper = {"reasonable":self.reasonable_index, "all": self.all_index, "person_class":\
-                         self.person_class_index}
+        method_mapper = {
+            "reasonable": self.reasonable_index,
+            "all": self.all_index,
+            "person": self.person_class_index
+        }
 
         image_index = method_mapper[self.version](image_set_list)
 
@@ -326,7 +334,7 @@ class inria(imdb):
         print(len(bboxes))
 
         verify_methods = {
-            "person_class_only": verify_person_class,
+            "person": verify_person_class,
             "reasonable": verify_reasonable,
             "all": verify_all
         }
@@ -347,7 +355,7 @@ class inria(imdb):
         # Load object bounding boxes into a data frame.
 
         cls = 1
-        
+
         # This is possitive example
         for ix, bbox in enumerate(bboxes):
 
@@ -572,9 +580,8 @@ class inria(imdb):
             self.config['use_salt'] = True
             self.config['cleanup'] = True
 
-
 if __name__ == '__main__':
-    
+
     from datasets.eth import eth
     d = eth("trainval")
     res = d.roidb

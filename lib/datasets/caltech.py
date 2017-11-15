@@ -24,7 +24,6 @@ from utils.timer import Timer
 import glob
 import cv2
 
-
 '''Public functions: filter for all dataset.'''
 
 
@@ -43,9 +42,9 @@ def boundry_filter(box, bnds={'xmin': 5, 'ymin': 5, 'xmax': 635, 'ymax': 475}):
     y2 = y1 + height
 
     validity = x1 >= bnds['xmin'] and \
-            x2 <= bnds['xmax'] and \
-            y1 >= bnds['ymin'] and \
-            y2 <= bnds['ymax']
+        x2 <= bnds['xmax'] and \
+        y1 >= bnds['ymin'] and \
+        y2 <= bnds['ymax']
 
     return validity
 
@@ -54,12 +53,13 @@ def boundry_filter(box, bnds={'xmin': 5, 'ymin': 5, 'xmax': 635, 'ymax': 475}):
 def height_filter(box, height_range={'min': 50, 'max': float('inf')}):
     height = box['pos'][3]
     validity = height >= height_range['min'] and \
-               height < height_range['max']
+        height < height_range['max']
     return validity
 
 
 # For boxes more visible than a speifcied range
 def visibility_filter(box, visible_range={'min': 0.65, 'max': float('inf')}):
+    
     occluded = box['occl']
 
     # A dirty condition to deal with the ill-formatted data.
@@ -80,25 +80,19 @@ def visibility_filter(box, visible_range={'min': 0.65, 'max': float('inf')}):
 
         visiable_ratio = visible_area / area
 
+    validity = visiable_ratio >= visible_range['min'] and \
+        visiable_ratio <= visible_range['max']
 
-    validity = visiable_ratio  >= visible_range['min'] and \
-           visiable_ratio  <= visible_range['max']
-
-    return validity
-
-    height = box['pos'][3]
-    validity = height >= height_range['min'] and \
-               height < height_range['max']
     return validity
 
 
 # For reasonable subset
 def reasonable_filter(box):
-    label = "person"
-    validity = box['lbl'] == 'person' and\
-               boundry_filter(box) and\
-               height_filter(box) and \
-               visibility_filter(box)
+
+    validity = label_filter(box) and\
+        boundry_filter(box) and\
+        height_filter(box) and \
+        visibility_filter(box)
 
     return validity
 
@@ -121,11 +115,11 @@ class caltech(imdb):
             "include_background": False
         }
         self._image_set = image_set
-        self._devkit_path = self._get_default_path() if devkit_path is None \
-                            else devkit_path
+        self._devkit_path = self._get_default_path() \
+            if devkit_path is None else devkit_path
         self._data_path = os.path.join("data", self._devkit_path, 'data')
         self._classes = (
-            '__background__',  # always index 0
+            '__background__',  
             'person')
         self._class_to_ind = dict(zip(self.classes, xrange(self.num_classes)))
         annotation_path = os.path.join(self._data_path, "annotations.json")
@@ -140,8 +134,8 @@ class caltech(imdb):
         self._roidb_handler = self.selective_search_roidb
         self._salt = str(uuid.uuid4())
 
-        #not usre if I should keep this line
-        #assert os.path.exists(self._devkit_path), \
+        # not usre if I should keep this line
+        # assert os.path.exists(self._devkit_path), \
         #        'VOCdevkit path does not exist: {}'.format(self._devkit_path)
         assert os.path.exists(self._data_path), \
                 'Path does not exist: {}'.format(self._data_path)
@@ -218,7 +212,11 @@ class caltech(imdb):
 
         print(image_set_list)
 
-        filter_mapper = {"reasonable": reasonable_filter, "all": true_filter, "person_class": label_filter}
+        filter_mapper = {
+            "reasonable": reasonable_filter,
+            "all": true_filter,
+            "person": label_filter
+        }
 
         box_filter = filter_mapper[self.version]
 
@@ -253,7 +251,8 @@ class caltech(imdb):
             return roidb
 
         gt_roidb = [
-            self._load_caltech_annotation(index)  # This line is crucially  important 
+            self._load_caltech_annotation(
+                index)  # This line is crucially  important 
             for index in self.image_index
         ]
         with open(cache_file, 'wb') as fid:
@@ -340,7 +339,7 @@ class caltech(imdb):
         bboxes = self._annotation[set_num][v_num]["frames"][frame_num]
 
         verify_methods = {
-            "person_class_only": label_filter,
+            "person": label_filter,
             "reasonable": reasonable_filter,
             "all": lambda box: True
         }
@@ -467,7 +466,8 @@ class caltech(imdb):
                 timer.toc()
 
                 print('Detection Time:{:.3f}s on {}  {}/{} images'.format(
-                    timer.average_time, file_name, current_frames + file_index + 1 , total_frames))
+                    timer.average_time, file_name,
+                    current_frames + file_index + 1, total_frames))
 
                 inds = np.where(dets[:, -1] >= thresh)[0]
                 for i in inds:
@@ -509,7 +509,9 @@ class caltech(imdb):
                     target_path, v_num, file_list, detect, total_frames,
                     current_frames)
 
+
 if __name__ == '__main__':
+
     from datasets.pascal_voc import caltech
     d = caltech("trainval")
     res = d.roidb

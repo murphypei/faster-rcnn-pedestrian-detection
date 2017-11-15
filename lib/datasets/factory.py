@@ -17,29 +17,21 @@ import numpy as np
 
 ''' add other dataset '''
 
-# Set up caltech_<version>_<split>
-for version in ["all", "reasonable", "person_class"]:
+for version in ["all", "reasonable", "person"]:
     for split in ["train", "val", "trainval", "test"]:
-        name = 'inria_{}_{}'.format(version, split)
+        name = 'eth_{}_{}'.format(version, split)
         __sets[name] = (
             lambda split=split, version=version: eth(version, split))
 
-# Set up caltech_<version>_<split>
-for version in ["all", "reasonable", "person_class"]:
+
+for version in ["all", "reasonable", "person"]:
     for split in ["train", "val", "trainval", "test"]:
         name = 'inria_{}_{}'.format(version, split)
         __sets[name] = (
             lambda split=split, version=version: inria(version, split))
 
 # Set up caltech_<version>_<split>
-for version in ["all", "reasonable", "person_class"]:
-    for split in ["train", "val", "trainval", "test"]:
-        name = 'caltech_{}_{}'.format(version, split)
-        __sets[name] = (
-            lambda split=split, version=version: caltech(version, split))
-
-# Set up caltech_<version>_<split>
-for version in ["all", "reasonable", "person_class"]:
+for version in ["all", "reasonable", "person"]:
     for split in ["train", "val", "trainval", "test"]:
         name = 'caltech_{}_{}'.format(version, split)
         __sets[name] = (
