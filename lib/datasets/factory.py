@@ -8,8 +8,8 @@
 
 __sets = {}
 
-from datasets.caltech import inria
-from datasets.caltech import eth
+from datasets.inria import inria
+from datasets.eth import eth
 from datasets.caltech import caltech
 from datasets.pascal_voc import pascal_voc
 from datasets.coco import coco

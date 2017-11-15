@@ -23,7 +23,7 @@ import glob
 import cv2
 
 
-class inria(imdb):
+class eth(imdb):
     def __init__(self,
                  version,
                  image_set,

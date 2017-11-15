@@ -369,8 +369,8 @@ class caltech(imdb):
             y1 = float(bbox['pos'][1])
             x2 = float(bbox['pos'][0] + bbox['pos'][2])
             y2 = float(bbox['pos'][1] + bbox['pos'][3])
-            assert(self.version != "reasonable" or (y2 - y1) >= 50, \
-                   "Bounding box is too samll, Reasonable Filter is not working.")
+            assert self.version != "reasonable" or (y2 - y1) >= 50, \
+                "Bounding box is too samll, Reasonable Filter is not working."
             boxes[ix, :] = [x1, y1, x2, y2]
             gt_classes[ix] = 1  #Must be pedestrian
             overlaps[ix, cls] = 1.0
