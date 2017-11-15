@@ -337,7 +337,9 @@ class pascal_voc(imdb):
             self.config['use_salt'] = True
             self.config['cleanup'] = True
 
+
 if __name__ == '__main__':
+    
     from datasets.pascal_voc import pascal_voc
     d = pascal_voc('trainval', '2007')
     res = d.roidb
