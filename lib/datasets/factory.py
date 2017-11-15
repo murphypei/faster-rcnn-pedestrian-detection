@@ -4,24 +4,46 @@
 # Licensed under The MIT License [see LICENSE for details]
 # Written by Ross Girshick
 # --------------------------------------------------------
-
 """Factory method for easily getting imdbs by name."""
 
 __sets = {}
 
+from datasets.caltech import inria
+from datasets.caltech import eth
 from datasets.caltech import caltech
 from datasets.pascal_voc import pascal_voc
 from datasets.coco import coco
 import numpy as np
 
-''' add caltech dataset '''
+''' add other dataset '''
 
-# Set up caltech_<version>_<split> 
+# Set up caltech_<version>_<split>
+for version in ["all", "reasonable", "person_class"]:
+    for split in ["train", "val", "trainval", "test"]:
+        name = 'inria_{}_{}'.format(version, split)
+        __sets[name] = (
+            lambda split=split, version=version: eth(version, split))
+
+# Set up caltech_<version>_<split>
+for version in ["all", "reasonable", "person_class"]:
+    for split in ["train", "val", "trainval", "test"]:
+        name = 'inria_{}_{}'.format(version, split)
+        __sets[name] = (
+            lambda split=split, version=version: inria(version, split))
+
+# Set up caltech_<version>_<split>
 for version in ["all", "reasonable", "person_class"]:
     for split in ["train", "val", "trainval", "test"]:
         name = 'caltech_{}_{}'.format(version, split)
-        __sets[name] = (lambda split=split, version=version : caltech(version, split))
+        __sets[name] = (
+            lambda split=split, version=version: caltech(version, split))
 
+# Set up caltech_<version>_<split>
+for version in ["all", "reasonable", "person_class"]:
+    for split in ["train", "val", "trainval", "test"]:
+        name = 'caltech_{}_{}'.format(version, split)
+        __sets[name] = (
+            lambda split=split, version=version: caltech(version, split))
 
 # Set up voc_<year>_<split> using selective search "fast" mode
 for year in ['2007', '2012', '0712']:
@@ -41,11 +63,13 @@ for year in ['2015']:
         name = 'coco_{}_{}'.format(year, split)
         __sets[name] = (lambda split=split, year=year: coco(split, year))
 
+
 def get_imdb(name):
     """Get an imdb (image database) by name."""
     if not __sets.has_key(name):
         raise KeyError('Unknown dataset: {}'.format(name))
     return __sets[name]()
+
 
 def list_imdbs():
     """List all registered imdbs."""
