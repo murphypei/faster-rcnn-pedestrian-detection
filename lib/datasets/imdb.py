@@ -113,12 +113,14 @@ class imdb(object):
             for b in range(len(boxes)):
                 if boxes[b][2] < boxes[b][0]:
                     boxes[b][0] = 0
-                    
+
             assert (boxes[:, 2] >= boxes[:, 0]).all()
-            entry = {'boxes' : boxes,
-                     'gt_overlaps' : self.roidb[i]['gt_overlaps'],
-                     'gt_classes' : self.roidb[i]['gt_classes'],
-                     'flipped' : True}
+            entry = {
+                'boxes': boxes,
+                'gt_overlaps': self.roidb[i]['gt_overlaps'],
+                'gt_classes': self.roidb[i]['gt_classes'],
+                'flipped': True
+            }
             self.roidb.append(entry)
         self._image_index = self._image_index * 2
 
