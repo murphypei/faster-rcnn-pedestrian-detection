@@ -4,7 +4,6 @@
 # Licensed under The MIT License [see LICENSE for details]
 # Written by Ross Girshick
 # --------------------------------------------------------
-
 """Test a Fast R-CNN network on an imdb (image database)."""
 
 from fast_rcnn.config import cfg, get_output_dir
@@ -18,6 +17,7 @@ from fast_rcnn.nms_wrapper import nms
 import cPickle
 from utils.blob import im_list_to_blob
 import os
+
 
 def _get_image_blob(im):
     """Converts an image into a network input.
@@ -45,8 +45,13 @@ def _get_image_blob(im):
         # Prevent the biggest axis from being more than MAX_SIZE
         if np.round(im_scale * im_size_max) > cfg.TEST.MAX_SIZE:
             im_scale = float(cfg.TEST.MAX_SIZE) / float(im_size_max)
-        im = cv2.resize(im_orig, None, None, fx=im_scale, fy=im_scale,
-                        interpolation=cv2.INTER_LINEAR)
+        im = cv2.resize(
+            im_orig,
+            None,
+            None,
+            fx=im_scale,
+            fy=im_scale,
+            interpolation=cv2.INTER_LINEAR)
         im_scale_factors.append(im_scale)
         processed_ims.append(im)
 
@@ -54,6 +59,7 @@ def _get_image_blob(im):
     blob = im_list_to_blob(processed_ims)
 
     return blob, np.array(im_scale_factors)
+
 
 def _get_rois_blob(im_rois, im_scale_factors):
     """Converts RoIs into network inputs.
@@ -68,6 +74,7 @@ def _get_rois_blob(im_rois, im_scale_factors):
     rois, levels = _project_im_rois(im_rois, im_scale_factors)
     rois_blob = np.hstack((levels, rois))
     return rois_blob.astype(np.float32, copy=False)
+
 
 def _project_im_rois(im_rois, scales):
     """Project image RoIs into the image pyramid built by _get_image_blob.
@@ -87,7 +94,7 @@ def _project_im_rois(im_rois, scales):
         heights = im_rois[:, 3] - im_rois[:, 1] + 1
 
         areas = widths * heights
-        scaled_areas = areas[:, np.newaxis] * (scales[np.newaxis, :] ** 2)
+        scaled_areas = areas[:, np.newaxis] * (scales[np.newaxis, :]**2)
         diff_areas = np.abs(scaled_areas - 224 * 224)
         levels = diff_areas.argmin(axis=1)[:, np.newaxis]
     else:
@@ -97,13 +104,15 @@ def _project_im_rois(im_rois, scales):
 
     return rois, levels
 
+
 def _get_blobs(im, rois):
     """Convert an image and RoIs within that image into network inputs."""
-    blobs = {'data' : None, 'rois' : None}
+    blobs = {'data': None, 'rois': None}
     blobs['data'], im_scale_factors = _get_image_blob(im)
     if not cfg.TEST.HAS_RPN:
         blobs['rois'] = _get_rois_blob(rois, im_scale_factors)
     return blobs, im_scale_factors
+
 
 def im_detect(net, im, boxes=None):
     """Detect object classes in an image given object proposals.
@@ -127,8 +136,8 @@ def im_detect(net, im, boxes=None):
     if cfg.DEDUP_BOXES > 0 and not cfg.TEST.HAS_RPN:
         v = np.array([1, 1e3, 1e6, 1e9, 1e12])
         hashes = np.round(blobs['rois'] * cfg.DEDUP_BOXES).dot(v)
-        _, index, inv_index = np.unique(hashes, return_index=True,
-                                        return_inverse=True)
+        _, index, inv_index = np.unique(
+            hashes, return_index=True, return_inverse=True)
         blobs['rois'] = blobs['rois'][index, :]
         boxes = boxes[index, :]
 
@@ -148,7 +157,8 @@ def im_detect(net, im, boxes=None):
     # do forward
     forward_kwargs = {'data': blobs['data'].astype(np.float32, copy=False)}
     if cfg.TEST.HAS_RPN:
-        forward_kwargs['im_info'] = blobs['im_info'].astype(np.float32, copy=False)
+        forward_kwargs['im_info'] = blobs['im_info'].astype(
+            np.float32, copy=False)
     else:
         forward_kwargs['rois'] = blobs['rois'].astype(np.float32, copy=False)
     blobs_out = net.forward(**forward_kwargs)
@@ -183,6 +193,7 @@ def im_detect(net, im, boxes=None):
 
     return scores, pred_boxes
 
+
 def vis_detections(im, class_name, dets, thresh=0.3):
     """Visual debugging of detections."""
     import matplotlib.pyplot as plt
@@ -194,13 +205,16 @@ def vis_detections(im, class_name, dets, thresh=0.3):
             plt.cla()
             plt.imshow(im)
             plt.gca().add_patch(
-                plt.Rectangle((bbox[0], bbox[1]),
-                              bbox[2] - bbox[0],
-                              bbox[3] - bbox[1], fill=False,
-                              edgecolor='g', linewidth=3)
-                )
+                plt.Rectangle(
+                    (bbox[0], bbox[1]),
+                    bbox[2] - bbox[0],
+                    bbox[3] - bbox[1],
+                    fill=False,
+                    edgecolor='g',
+                    linewidth=3))
             plt.title('{}  {:.3f}'.format(class_name, score))
             plt.show()
+
 
 def apply_nms(all_boxes, thresh):
     """Apply non-maximum suppression to all predicted boxes output by the
@@ -208,8 +222,7 @@ def apply_nms(all_boxes, thresh):
     """
     num_classes = len(all_boxes)
     num_images = len(all_boxes[0])
-    nms_boxes = [[[] for _ in xrange(num_images)]
-                 for _ in xrange(num_classes)]
+    nms_boxes = [[[] for _ in xrange(num_images)] for _ in xrange(num_classes)]
     for cls_ind in xrange(num_classes):
         for im_ind in xrange(num_images):
             dets = all_boxes[cls_ind][im_ind]
@@ -224,8 +237,17 @@ def apply_nms(all_boxes, thresh):
             nms_boxes[cls_ind][im_ind] = dets[keep, :].copy()
     return nms_boxes
 
+
 def test_net(net, imdb, max_per_image=100, thresh=0.05, vis=False):
     """Test a Fast R-CNN network on an image database."""
+
+    # add caltech test
+    print("Start test: {}".format(imdb.name))
+    if imdb.name == 'caltech_pedestrian_test':
+        print("Start to write detection results")
+        imdb._write_caltech_results_file(net)
+        return
+
     num_images = len(imdb.image_index)
     # all detections are collected into:
     #    all_boxes[cls][image] = N x 5 array of detections in
@@ -236,7 +258,7 @@ def test_net(net, imdb, max_per_image=100, thresh=0.05, vis=False):
     output_dir = get_output_dir(imdb, net)
 
     # timers
-    _t = {'im_detect' : Timer(), 'misc' : Timer()}
+    _t = {'im_detect': Timer(), 'misc': Timer()}
 
     if not cfg.TEST.HAS_RPN:
         roidb = imdb.roidb
@@ -263,7 +285,7 @@ def test_net(net, imdb, max_per_image=100, thresh=0.05, vis=False):
         for j in xrange(1, imdb.num_classes):
             inds = np.where(scores[:, j] > thresh)[0]
             cls_scores = scores[inds, j]
-            cls_boxes = boxes[inds, j*4:(j+1)*4]
+            cls_boxes = boxes[inds, j * 4:(j + 1) * 4]
             cls_dets = np.hstack((cls_boxes, cls_scores[:, np.newaxis])) \
                 .astype(np.float32, copy=False)
             keep = nms(cls_dets, cfg.TEST.NMS)
@@ -274,8 +296,8 @@ def test_net(net, imdb, max_per_image=100, thresh=0.05, vis=False):
 
         # Limit to max_per_image detections *over all classes*
         if max_per_image > 0:
-            image_scores = np.hstack([all_boxes[j][i][:, -1]
-                                      for j in xrange(1, imdb.num_classes)])
+            image_scores = np.hstack(
+                [all_boxes[j][i][:, -1] for j in xrange(1, imdb.num_classes)])
             if len(image_scores) > max_per_image:
                 image_thresh = np.sort(image_scores)[-max_per_image]
                 for j in xrange(1, imdb.num_classes):
