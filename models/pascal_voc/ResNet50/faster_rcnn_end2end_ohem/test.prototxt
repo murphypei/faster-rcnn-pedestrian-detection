@@ -9,7 +9,7 @@ layer {
   python_param {
     module: 'roi_data_layer.layer'
     layer: 'RoIDataLayer'
-    param_str: "'num_classes': 21"
+    param_str: "'num_classes': 2"
   }
 }
 
@@ -3028,7 +3028,7 @@ layer {
   python_param {
     module: 'rpn.proposal_target_layer'
     layer: 'ProposalTargetLayer'
-    param_str: "'num_classes': 21"
+    param_str: "'num_classes': 2"
   }
 }
 
@@ -3534,7 +3534,7 @@ layer {
     name: "cls_score_b"
   }
   inner_product_param {
-    num_output: 21
+    num_output: 2
     weight_filler {
       type: "gaussian"
       std: 0.01
@@ -3558,7 +3558,7 @@ layer {
     name: "bbox_pred_b"
   }
   inner_product_param {
-    num_output: 84
+    num_output: 8
     weight_filler {
       type: "gaussian"
       std: 0.001
@@ -3601,7 +3601,7 @@ layer {
   python_param {
     module: "roi_data_layer.layer"
     layer: "OHEMDataLayer"
-    param_str: "'num_classes': 21"
+    param_str: "'num_classes': 2"
   }
 }
 ########## End ###########
@@ -4123,7 +4123,7 @@ layer {
     lr_mult: 2
   }
   inner_product_param {
-    num_output: 21
+    num_output: 2
     weight_filler {
       type: "gaussian"
       std: 0.01
@@ -4148,7 +4148,7 @@ layer {
     lr_mult: 2
   }
   inner_product_param {
-    num_output: 84
+    num_output: 8
     weight_filler {
       type: "gaussian"
       std: 0.001

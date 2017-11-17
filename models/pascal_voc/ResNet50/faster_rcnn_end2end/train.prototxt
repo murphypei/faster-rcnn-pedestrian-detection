@@ -1,4 +1,4 @@
-name: "ResNet50_BN_SCALE_Merged"
+name: "ResNet50"
 layer {
   name: 'input-data'
   type: 'Python'
