@@ -45,8 +45,8 @@ case $DATASET in
 esac
 
 # rm dataset cache
-rm ./data/cache
-rm ./data/VOCdevkit2007/annotations_cache
+trash ./data/cache
+trash ./data/VOCdevkit2007/annotations_cache
 
 LOG="experiments/logs/faster_rcnn_end2end_${NET}_${EXTRA_ARGS_SLUG}.txt.`date +'%Y-%m-%d_%H-%M-%S'`"
 exec &> >(tee -a "$LOG")
