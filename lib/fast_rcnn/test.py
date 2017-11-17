@@ -161,6 +161,7 @@ def im_detect(net, im, boxes=None):
             np.float32, copy=False)
     else:
         forward_kwargs['rois'] = blobs['rois'].astype(np.float32, copy=False)
+    
     blobs_out = net.forward(**forward_kwargs)
 
     if cfg.TEST.HAS_RPN:
