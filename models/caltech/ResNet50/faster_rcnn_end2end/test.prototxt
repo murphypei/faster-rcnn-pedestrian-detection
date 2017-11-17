@@ -7,11 +7,13 @@ input_shape {
   dim: 224
   dim: 224
 }
+
 input: "im_info"
 input_shape {
   dim: 1
   dim: 3
 }
+
 layer {
   name: "conv1"
   bottom: "data"
@@ -25,6 +27,7 @@ layer {
     bias_term: true
   }
 }
+
 layer {
   name: "bn_conv1"
   bottom: "conv1"
