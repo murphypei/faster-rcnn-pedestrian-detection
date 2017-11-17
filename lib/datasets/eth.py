@@ -138,7 +138,7 @@ class eth(imdb):
             pos = box['pos']
             pos_v = box['posv']
             occl = box['occl']
-            label = box["lbl"]
+            # label = box["lbl"]
 
             pos_area = pos[2] * pos[3]
 
@@ -179,8 +179,7 @@ class eth(imdb):
         ]
 
         image_path = os.path.join(self._data_path, 'images')
-        assert os.path.exists( image_path), \
-                'Path does not exist: {}'.format( image_path)
+        assert os.path.exists(image_path), 'Path does not exist: {}'.format(image_path)
         image_index = []
 
         print(image_set_list)
@@ -306,7 +305,7 @@ class eth(imdb):
             pos = box['pos']
             pos_v = box['posv']
             occl = box['occl']
-            label = box["lbl"]
+            # label = box["lbl"]
 
             pos_area = pos[2] * pos[3]
 
