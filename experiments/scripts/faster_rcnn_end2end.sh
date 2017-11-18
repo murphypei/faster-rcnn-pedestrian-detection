@@ -27,7 +27,7 @@ case $DATASET in
     TRAIN_IMDB="voc_2007_trainval"
     TEST_IMDB="voc_2007_test"
     PT_DIR="pascal_voc"
-    ITERS=30000   # 70000
+    ITERS=70000   
     ;;
   coco)
     # This is a very long and slow training schedule
@@ -68,5 +68,5 @@ time ./tools/test_net.py --gpu ${GPU_ID} \
   --def models/${PT_DIR}/${NET}/faster_rcnn_end2end/test.prototxt \
   --net ${NET_FINAL} \
   --imdb ${TEST_IMDB} \
-  --cfg experiments/cfgs/faster_rcnn_end2end.yml \
+  --cfg experiments/cfgs/faster_rcnn_end2end_ohem.yml \
   ${EXTRA_ARGS}
