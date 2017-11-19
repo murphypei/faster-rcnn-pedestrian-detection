@@ -1,4 +1,4 @@
-train_net: "models/pascal_voc/ResNet50/faster_rcnn_end2end/train.prototxt"
+train_net: "models/caltech/ResNet101_Merged/faster_rcnn_end2end/train.prototxt"
 base_lr: 0.001
 lr_policy: "step"
 gamma: 0.1
@@ -12,5 +12,5 @@ weight_decay: 0.0005
 # function
 snapshot: 0
 # We still use the snapshot prefix, though
-snapshot_prefix: "resnet50_faster_rcnn_end2end"
+snapshot_prefix: "resnet101_merged_faster_rcnn_end2end"
 iter_size: 2

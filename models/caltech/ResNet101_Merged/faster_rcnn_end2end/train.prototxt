@@ -4367,593 +4367,13 @@ layer {
   }
 }
 
-
-
-##########################
-## Readonly RoI Network ##
-######### Start ##########
-layer {
-  name: "roi_pool5_readonly"
-  type: "ROIPooling"
-  bottom: "res4b22"
-  bottom: "rois"
-  top: "roi_pool5_readonly"
-  propagate_down: false
-  propagate_down: false
-  roi_pooling_param {
-    pooled_w: 14
-    pooled_h: 14
-    spatial_scale: 0.0625 # 1/16
-  }
-}
-
-layer {
-    bottom: "roi_pool5_readonly"
-    top: "res5a_branch1_readonly"
-    name: "res5a_branch1_readonly"
-    propagate_down: false
-    type: "Convolution"
-    convolution_param {
-        num_output: 2048
-        kernel_size: 1
-        pad: 0
-        stride: 2
-        bias_term: false
-    }
-    param {
-        name: "res5a_branch1_w"
-    }
-}
-
-layer {
-    bottom: "res5a_branch1_readonly"
-    top: "res5a_branch1_readonly"
-    name: "scale5a_branch1_readonly"
-    propagate_down: false
-    type: "Scale"
-    scale_param {
-        bias_term: true
-    }
-    param {
-      name: "scale5a_branch1_w"
-    }
-    param {
-      name: "scale5a_branch1_b"
-    }
-}
-
-layer {
-    bottom: "roi_pool5_readonly"
-    top: "res5a_branch2a_readonly"
-    name: "res5a_branch2a_readonly"
-    propagate_down: false
-    type: "Convolution"
-    convolution_param {
-        num_output: 512
-        kernel_size: 1
-        pad: 0
-        stride: 2
-        bias_term: false
-    }
-    param {
-        name: "res5a_branch2a_w"
-    }
-}
-
-layer {
-    bottom: "res5a_branch2a_readonly"
-    top: "res5a_branch2a_readonly"
-    name: "scale5a_branch2a_readonly"
-    propagate_down: false
-    type: "Scale"
-    scale_param {
-        bias_term: true
-    }
-    param {
-      name: "scale5a_branch2a_w"
-    }
-    param {
-      name: "scale5a_branch2a_b"
-    }
-}
-
-layer {
-    top: "res5a_branch2a_readonly"
-    bottom: "res5a_branch2a_readonly"
-    name: "res5a_branch2a_relu_readonly"
-    propagate_down: false
-    type: "ReLU"
-}
-
-layer {
-    bottom: "res5a_branch2a_readonly"
-    top: "res5a_branch2b_readonly"
-    name: "res5a_branch2b_readonly"
-    propagate_down: false
-    type: "Convolution"
-    convolution_param {
-        num_output: 512
-        kernel_size: 3
-        pad: 1
-        stride: 1
-        bias_term: false
-    }
-    param {
-        name: "res5a_branch2b_w"
-    }
-}
-
-
-layer {
-    bottom: "res5a_branch2b_readonly"
-    top: "res5a_branch2b_readonly"
-    name: "scale5a_branch2b_readonly"
-    type: "Scale"
-    propagate_down: false
-    scale_param {
-        bias_term: true
-    }
-    param {
-      name: "scale5a_branch2b_w"
-    }
-    param {
-      name: "scale5a_branch2b_b"
-    }
-}
-
-layer {
-    top: "res5a_branch2b_readonly"
-    bottom: "res5a_branch2b_readonly"
-    name: "res5a_branch2b_relu_readonly"
-    propagate_down: false
-    type: "ReLU"
-}
-
-layer {
-    bottom: "res5a_branch2b_readonly"
-    top: "res5a_branch2c_readonly"
-    name: "res5a_branch2c_readonly"
-    type: "Convolution"
-    propagate_down: false
-    convolution_param {
-        num_output: 2048
-        kernel_size: 1
-        pad: 0
-        stride: 1
-        bias_term: false
-    }
-    param {
-        name: "res5a_branch2c_w"
-    }
-}
-
-
-layer {
-    bottom: "res5a_branch2c_readonly"
-    top: "res5a_branch2c_readonly"
-    name: "scale5a_branch2c_readonly"
-    propagate_down: false
-    type: "Scale"
-    scale_param {
-        bias_term: true
-    }
-    param {
-        name: "scale5a_branch2c_w"
-    }
-    param {
-        name: "scale5a_branch2c_b"
-    }
-}
-
-layer {
-    bottom: "res5a_branch1_readonly"
-    bottom: "res5a_branch2c_readonly"
-    top: "res5a_readonly"
-    name: "res5a_readonly"
-    propagate_down: false
-    propagate_down: false
-    type: "Eltwise"
-}
-
-layer {
-    bottom: "res5a_readonly"
-    top: "res5a_readonly"
-    name: "res5a_relu_readonly"
-    propagate_down: false
-    type: "ReLU"
-}
-
-layer {
-    bottom: "res5a_readonly"
-    top: "res5b_branch2a_readonly"
-    name: "res5b_branch2a_readonly"
-    propagate_down: false
-    type: "Convolution"
-    convolution_param {
-        num_output: 512
-        kernel_size: 1
-        pad: 0
-        stride: 1
-        bias_term: false
-    }
-    param {
-      name: "res5b_branch2a_w"
-    }
-}
-
-
-layer {
-    bottom: "res5b_branch2a_readonly"
-    top: "res5b_branch2a_readonly"
-    name: "scale5b_branch2a_readonly"
-    propagate_down: false
-    type: "Scale"
-    scale_param {
-        bias_term: true
-    }
-    param {
-      name: "scale5b_branch2a_w"
-    }
-    param {
-      name: "scale5b_branch2a_b"
-    }
-}
-
-layer {
-    top: "res5b_branch2a_readonly"
-    bottom: "res5b_branch2a_readonly"
-    name: "res5b_branch2a_relu_readonly"
-    propagate_down: false
-    type: "ReLU"
-}
-
-layer {
-    bottom: "res5b_branch2a_readonly"
-    top: "res5b_branch2b_readonly"
-    name: "res5b_branch2b_readonly"
-    propagate_down: false
-    type: "Convolution"
-    convolution_param {
-        num_output: 512
-        kernel_size: 3
-        pad: 1
-        stride: 1
-        bias_term: false
-    }
-    param {
-      name: "res5b_branch2b_w"
-    }
-}
-
-
-layer {
-    bottom: "res5b_branch2b_readonly"
-    top: "res5b_branch2b_readonly"
-    name: "scale5b_branch2b_readonly"
-    propagate_down: false
-    type: "Scale"
-    scale_param {
-        bias_term: true
-    }
-    param {
-      name: "scale5b_branch2b_w"
-    }
-    param {
-      name: "scale5b_branch2b_b"
-    }
-}
-
-layer {
-    top: "res5b_branch2b_readonly"
-    bottom: "res5b_branch2b_readonly"
-    name: "res5b_branch2b_relu_readonly"
-    propagate_down: false
-    type: "ReLU"
-}
-
-layer {
-    bottom: "res5b_branch2b_readonly"
-    top: "res5b_branch2c_readonly"
-    name: "res5b_branch2c_readonly"
-    propagate_down: false
-    type: "Convolution"
-    convolution_param {
-        num_output: 2048
-        kernel_size: 1
-        pad: 0
-        stride: 1
-        bias_term: false
-    }
-    param {
-      name: "res5b_branch2c_w"
-    }
-}
-
-layer {
-    bottom: "res5b_branch2c_readonly"
-    top: "res5b_branch2c_readonly"
-    name: "scale5b_branch2c_readonly"
-    propagate_down: false
-    type: "Scale"
-    scale_param {
-        bias_term: true
-    }
-    param {
-      name: "scale5b_branch2c_w"
-    }
-    param {
-      name: "scale5b_branch2c_b"
-    }
-}
-
-layer {
-    bottom: "res5a_readonly"
-    bottom: "res5b_branch2c_readonly"
-    top: "res5b_readonly"
-    name: "res5b_readonly"
-    propagate_down: false
-    propagate_down: false
-    type: "Eltwise"
-}
-
-layer {
-    bottom: "res5b_readonly"
-    top: "res5b_readonly"
-    name: "res5b_relu_readonly"
-    propagate_down: false
-    type: "ReLU"
-}
-
-layer {
-    bottom: "res5b_readonly"
-    top: "res5c_branch2a_readonly"
-    name: "res5c_branch2a_readonly"
-    propagate_down: false
-    type: "Convolution"
-    convolution_param {
-        num_output: 512
-        kernel_size: 1
-        pad: 0
-        stride: 1
-        bias_term: false
-    }
-    param {
-      name: "res5c_branch2a_w"
-    }
-}
-
-
-layer {
-    bottom: "res5c_branch2a_readonly"
-    top: "res5c_branch2a_readonly"
-    name: "scale5c_branch2a_readonly"
-    propagate_down: false
-    type: "Scale"
-    scale_param {
-        bias_term: true
-    }
-    param {
-      name: "scale5c_branch2a_w"
-    }
-    param {
-      name: "scale5c_branch2a_b"
-    }
-}
-
-layer {
-    top: "res5c_branch2a_readonly"
-    bottom: "res5c_branch2a_readonly"
-    name: "res5c_branch2a_relu_readonly"
-    propagate_down: false
-    type: "ReLU"
-}
-
-layer {
-    bottom: "res5c_branch2a_readonly"
-    top: "res5c_branch2b_readonly"
-    name: "res5c_branch2b_readonly"
-    propagate_down: false
-    type: "Convolution"
-    convolution_param {
-        num_output: 512
-        kernel_size: 3
-        pad: 1
-        stride: 1
-        bias_term: false
-    }
-    param {
-      name: "res5c_branch2b_w"
-    }
-}
-
-layer {
-    bottom: "res5c_branch2b_readonly"
-    top: "res5c_branch2b_readonly"
-    name: "scale5c_branch2b_readonly"
-    propagate_down: false
-    type: "Scale"
-    scale_param {
-        bias_term: true
-    }
-    param {
-      name: "scale5c_branch2b_w"
-    }
-    param {
-      name: "scale5c_branch2b_b"
-    }
-}
-
-layer {
-    top: "res5c_branch2b_readonly"
-    bottom: "res5c_branch2b_readonly"
-    name: "res5c_branch2b_relu_readonly"
-    propagate_down: false
-    type: "ReLU"
-}
-
-layer {
-    bottom: "res5c_branch2b_readonly"
-    top: "res5c_branch2c_readonly"
-    name: "res5c_branch2c_readonly"
-    propagate_down: false
-    type: "Convolution"
-    convolution_param {
-        num_output: 2048
-        kernel_size: 1
-        pad: 0
-        stride: 1
-        bias_term: false
-    }
-    param {
-      name: "res5c_branch2c_w"
-    }
-}
-
-layer {
-    bottom: "res5c_branch2c_readonly"
-    top: "res5c_branch2c_readonly"
-    name: "scale5c_branch2c_readonly"
-    propagate_down: false
-    type: "Scale"
-    scale_param {
-        bias_term: true
-    }
-    param {
-      name: "scale5c_branch2c_w"
-    }
-    param {
-      name: "scale5c_branch2c_b"
-    }
-}
-
-layer {
-    bottom: "res5b_readonly"
-    bottom: "res5c_branch2c_readonly"
-    propagate_down: false
-    propagate_down: false
-    top: "res5c_readonly"
-    name: "res5c_readonly"
-    type: "Eltwise"
-}
-
-layer {
-    bottom: "res5c_readonly"
-    top: "res5c_readonly"
-    propagate_down: false
-    name: "res5c_relu_readonly"
-    type: "ReLU"
-}
-
-layer {
-	bottom: "res5c_readonly"
-	top: "pool5_readonly"
-	name: "pool5_readonly"
-	type: "Pooling"
-	propagate_down: false
-	pooling_param {
-		kernel_size: 7
-		stride: 1
-		pool: AVE
-	}
-}
-
-layer {
-  name: "cls_score_readonly"
-  type: "InnerProduct"
-  bottom: "pool5_readonly"
-  top: "cls_score_readonly"
-  propagate_down: false
-  param {
-    name: "cls_score_w"
-  }
-  param {
-    name: "cls_score_b"
-  }
-  inner_product_param {
-    num_output: 2
-    weight_filler {
-      type: "gaussian"
-      std: 0.01
-    }
-    bias_filler {
-      type: "constant"
-      value: 0
-    }
-  }
-}
-layer {
-  name: "bbox_pred_readonly"
-  type: "InnerProduct"
-  bottom: "pool5_readonly"
-  top: "bbox_pred_readonly"
-  propagate_down: false
-  param {
-    name: "bbox_pred_w"
-  }
-  param {
-    name: "bbox_pred_b"
-  }
-  inner_product_param {
-    num_output: 8
-    weight_filler {
-      type: "gaussian"
-      std: 0.001
-    }
-    bias_filler {
-      type: "constant"
-      value: 0
-    }
-  }
-}
-layer {
-  name: "cls_prob_readonly"
-  type: "Softmax"
-  bottom: "cls_score_readonly"
-  top: "cls_prob_readonly"
-  propagate_down: false
-}
-layer {
-  name: "hard_roi_mining"
-  type: "Python"
-  bottom: "cls_prob_readonly"
-  bottom: "bbox_pred_readonly"
-  bottom: "rois"
-  bottom: "labels"
-  bottom: "bbox_targets"
-  bottom: "bbox_inside_weights"
-  bottom: "bbox_outside_weights"
-  top: "rois_hard"
-  top: "labels_hard"
-  top: "bbox_targets_hard"
-  top: "bbox_inside_weights_hard"
-  top: "bbox_outside_weights_hard"
-  propagate_down: false
-  propagate_down: false
-  propagate_down: false
-  propagate_down: false
-  propagate_down: false
-  propagate_down: false
-  propagate_down: false
-  python_param {
-    module: "roi_data_layer.layer"
-    layer: "OHEMDataLayer"
-    param_str: "'num_classes': 2"
-  }
-}
-########## End ###########
-## Readonly RoI Network ##
-##########################
-
-
 #========= RCNN ============
 layer {
   name: "roi_pool5"
   type: "ROIPooling"
   bottom: "res4b22"
-  bottom: "rois_hard"
+  bottom: "rois"
   top: "roi_pool5"
-  propagate_down: true
-  propagate_down: false
   roi_pooling_param {
     pooled_w: 14
     pooled_h: 14
@@ -4974,7 +4394,6 @@ layer {
         bias_term: false
     }
     param {
-        name: "res5a_branch1_w"
         lr_mult: 1.0
     }
 }
@@ -4988,12 +4407,10 @@ layer {
         bias_term: true
     }
     param {
-        name: "scale5a_branch1_w"
         lr_mult: 0.0
         decay_mult: 0.0
     }
     param {
-        name: "scale5a_branch1_b"
         lr_mult: 0.0
         decay_mult: 0.0
     }
@@ -5012,7 +4429,6 @@ layer {
         bias_term: false
     }
     param {
-        name: "res5a_branch2a_w"
         lr_mult: 1.0
     }
 }
@@ -5026,12 +4442,10 @@ layer {
         bias_term: true
     }
     param {
-        name: "scale5a_branch2a_w"
         lr_mult: 0.0
         decay_mult: 0.0
     }
     param {
-        name: "scale5a_branch2a_b"
         lr_mult: 0.0
         decay_mult: 0.0
     }
@@ -5057,7 +4471,6 @@ layer {
         bias_term: false
     }
     param {
-        name: "res5a_branch2b_w"
         lr_mult: 1.0
     }
 }
@@ -5072,12 +4485,10 @@ layer {
         bias_term: true
     }
     param {
-        name: "scale5a_branch2b_w"
         lr_mult: 0.0
         decay_mult: 0.0
     }
     param {
-        name: "scale5a_branch2b_b"
         lr_mult: 0.0
         decay_mult: 0.0
     }
@@ -5103,7 +4514,6 @@ layer {
         bias_term: false
     }
     param {
-        name: "res5a_branch2c_w"
         lr_mult: 1.0
     }
 }
@@ -5118,12 +4528,10 @@ layer {
         bias_term: true
     }
     param {
-        name: "scale5a_branch2c_w"
         lr_mult: 0.0
         decay_mult: 0.0
     }
     param {
-        name: "scale5a_branch2c_b"
         lr_mult: 0.0
         decay_mult: 0.0
     }
@@ -5157,7 +4565,6 @@ layer {
         bias_term: false
     }
     param {
-        name: "res5b_branch2a_w"
         lr_mult: 1.0
     }
 }
@@ -5172,12 +4579,10 @@ layer {
         bias_term: true
     }
     param {
-        name: "scale5b_branch2a_w"
         lr_mult: 0.0
         decay_mult: 0.0
     }
     param {
-        name: "scale5b_branch2a_b"
         lr_mult: 0.0
         decay_mult: 0.0
     }
@@ -5203,7 +4608,6 @@ layer {
         bias_term: false
     }
     param {
-        name: "res5b_branch2b_w"
         lr_mult: 1.0
     }
 }
@@ -5218,12 +4622,10 @@ layer {
         bias_term: true
     }
     param {
-        name: "scale5b_branch2b_w"
         lr_mult: 0.0
         decay_mult: 0.0
     }
     param {
-        name: "scale5b_branch2b_b"
         lr_mult: 0.0
         decay_mult: 0.0
     }
@@ -5249,7 +4651,6 @@ layer {
         bias_term: false
     }
     param {
-        name: "res5b_branch2c_w"
         lr_mult: 1.0
     }
 }
@@ -5263,12 +4664,10 @@ layer {
         bias_term: true
     }
     param {
-        name: "scale5b_branch2c_w"
         lr_mult: 0.0
         decay_mult: 0.0
     }
     param {
-        name: "scale5b_branch2c_b"
         lr_mult: 0.0
         decay_mult: 0.0
     }
@@ -5302,7 +4701,6 @@ layer {
         bias_term: false
     }
     param {
-        name: "res5c_branch2a_w"
         lr_mult: 1.0
     }
 }
@@ -5317,12 +4715,10 @@ layer {
         bias_term: true
     }
     param {
-        name: "scale5c_branch2a_w"
         lr_mult: 0.0
         decay_mult: 0.0
     }
     param {
-        name: "scale5c_branch2a_b"
         lr_mult: 0.0
         decay_mult: 0.0
     }
@@ -5348,7 +4744,6 @@ layer {
         bias_term: false
     }
     param {
-        name: "res5c_branch2b_w"
         lr_mult: 1.0
     }
 }
@@ -5362,12 +4757,10 @@ layer {
         bias_term: true
     }
     param {
-        name: "scale5c_branch2b_w"
         lr_mult: 0.0
         decay_mult: 0.0
     }
     param {
-        name: "scale5c_branch2b_b"
         lr_mult: 0.0
         decay_mult: 0.0
     }
@@ -5393,7 +4786,6 @@ layer {
         bias_term: false
     }
     param {
-        name: "res5c_branch2c_w"
         lr_mult: 1.0
     }
 }
@@ -5407,12 +4799,10 @@ layer {
         bias_term: true
     }
     param {
-        name: "scale5c_branch2c_w"
         lr_mult: 0.0
         decay_mult: 0.0
     }
     param {
-        name: "scale5c_branch2c_b"
         lr_mult: 0.0
         decay_mult: 0.0
     }
@@ -5451,11 +4841,9 @@ layer {
   bottom: "pool5"
   top: "cls_score"
   param {
-    name: "cls_score_w"
     lr_mult: 1
   }
   param {
-    name: "cls_score_b"
     lr_mult: 2
   }
   inner_product_param {
@@ -5476,11 +4864,9 @@ layer {
   bottom: "pool5"
   top: "bbox_pred"
   param {
-    name: "bbox_pred_w"
     lr_mult: 1
   }
   param {
-    name: "bbox_pred_b"
     lr_mult: 2
   }
   inner_product_param {
@@ -5495,12 +4881,11 @@ layer {
     }
   }
 }
-
 layer {
   name: "loss_cls"
   type: "SoftmaxWithLoss"
   bottom: "cls_score"
-  bottom: "labels_hard"
+  bottom: "labels"
   propagate_down: 1
   propagate_down: 0
   top: "loss_cls"
@@ -5510,13 +4895,9 @@ layer {
   name: "loss_bbox"
   type: "SmoothL1Loss"
   bottom: "bbox_pred"
-  bottom: "bbox_targets_hard"
-  bottom: "bbox_inside_weights_hard"
-  bottom: "bbox_outside_weights_hard"
+  bottom: "bbox_targets"
+  bottom: "bbox_inside_weights"
+  bottom: "bbox_outside_weights"
   top: "loss_bbox"
-  propagate_down: true
-  propagate_down: false
-  propagate_down: false
-  propagate_down: false
   loss_weight: 1
 }
