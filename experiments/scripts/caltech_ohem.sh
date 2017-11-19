@@ -31,9 +31,8 @@ case $DATASET in
     # time to the LR drop (set in the solver to 350,000 iterations).
     TRAIN_IMDB="caltech_reasonable_trainval"
     TEST_IMDB="caltech_reasonable_test"
-   
     PT_DIR="caltech"
-    ITERS=70000
+    ITERS=120000
     ;;
     person_class_only)
     # This is a very long and slow training schedule
@@ -41,7 +40,6 @@ case $DATASET in
     # time to the LR drop (set in the solver to 350,000 iterations).
     TRAIN_IMDB="caltech_person_class_trainval"
     TEST_IMDB="caltech_person_class_test"
-   
     PT_DIR="caltech"
     ITERS=490000
     ;;
@@ -66,3 +64,11 @@ time ./tools/train_net.py --gpu ${GPU_ID} \
 set +x
 NET_FINAL=`grep -B 1 "done solving" ${LOG} | grep "Wrote snapshot" | awk '{print $4}'`
 set -x
+
+
+time ./tools/test_net.py --gpu ${GPU_ID} \
+  --def models/${PT_DIR}/${NET}/faster_rcnn_end2end_ohem/test.prototxt \
+  --net ${NET_FINAL} \
+  --imdb ${TEST_IMDB} \
+  --cfg experiments/cfgs/faster_rcnn_end2end_ohem.yml \
+  ${EXTRA_ARGS}
