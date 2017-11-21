@@ -25,30 +25,29 @@ fi
 
 PT_DIR="caltech"
 
-
 case $DATASET in
     all)
     # This is a very long and slow training schedule
     # You can probably use fewer iterations and reduce the
     # time to the LR drop (set in the solver to 350,000 iterations).
-    TRAIN_IMDB="caltech_all_trainval"
-    TEST_IMDB="caltech_all_test"
+    TRAIN_IMDB="inria_all_trainval"
+    TEST_IMDB="inria_all_test"
     ITERS=120000
     ;;
     reasonable)
     # This is a very long and slow training schedule
     # You can probably use fewer iterations and reduce the
     # time to the LR drop (set in the solver to 350,000 iterations).
-    TRAIN_IMDB="caltech_reasonable_trainval"
-    TEST_IMDB="caltech_reasonable_test"
+    TRAIN_IMDB="inria_reasonable_trainval"
+    TEST_IMDB="inria_reasonable_test"
     ITERS=70000
     ;;
     person)
     # This is a very long and slow training schedule
     # You can probably use fewer iterations and reduce the
     # time to the LR drop (set in the solver to 350,000 iterations).
-    TRAIN_IMDB="caltech_person_trainval"
-    TEST_IMDB="caltech_person_test"
+    TRAIN_IMDB="inria_person_trainval"
+    TEST_IMDB="inria_person_test"
     ITERS=70000
     ;;
     *)
@@ -56,16 +55,6 @@ case $DATASET in
     exit
     ;;
 esac
-
-# echo ${GPU_ID}
-# echo ${NET}
-# echo ${DATASET}
-# echo ${TRAIN_METHOD}
-# echo ${TRAIN_IMDB}
-# echo ${TEST_IMDB}
-# echo ${PT_DIR}
-# echo ${ITERS}
-# exit
 
 LOG="experiments/logs/${TRAIN_METHOD}_${NET}_${EXTRA_ARGS_SLUG}.txt.`date +'%Y-%m-%d_%H-%M-%S'`"
 exec &> >(tee -a "$LOG")
