@@ -98,7 +98,8 @@ def reasonable_filter(box):
 
 
 # For all dataset
-true_filter = lambda box: True
+def true_filter(box):
+    return True
 
 
 # caltech imdb
