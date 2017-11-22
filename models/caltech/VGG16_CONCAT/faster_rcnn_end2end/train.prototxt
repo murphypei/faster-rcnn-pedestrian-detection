@@ -538,8 +538,8 @@ layer {
 layer {
 	bottom: "conv3_3"
 	bottom: "rois"
-	top: "roi_pool3"
-	name: "roi_pool3"
+	top: "roi_pool3_3"
+	name: "roi_pool3_3"
 	type: "ROIPooling"
 	roi_pooling_param {
 		pooled_w: 7
@@ -557,37 +557,64 @@ layer {
 	roi_pooling_param {
 		pooled_w: 7
 		pooled_h: 7
-		spatial_scale: 0.25  # (1/4)
+		spatial_scale: 0.125  # (1/8)
 	}
 }
 
-layer {
-    bottom: "roi_pool3"
-	top: "roi_pool3_flat"
-	name: "roi_pool3_flat"
-	type: "Flatten"
-}
+# layer {
+#   bottom: "roi_pool3"
+# 	top: "roi_pool3_flat"
+# 	name: "roi_pool3_flat"
+# 	type: "Flatten"
+# }
+
+# layer {
+#   bottom: "roi_pool4_3"
+# 	top: "roi_pool4_3_flat"
+# 	name: "roi_pool4_3_flat"
+# 	type: "Flatten"
+# }
 
 layer {
-  bottom: "roi_pool4_3"
-	top: "roi_pool4_3_flat"
-	name: "roi_pool4_3_flat"
-	type: "Flatten"
-}
-
-layer {
-    bottom: "roi_pool3_flat"
-	bottom: "roi_pool4_3_flat"
+  bottom: "roi_pool3_3"
+	bottom: "roi_pool4_3"
 	top: "concat_feat"
 	name: "concat_feat"
 	type: "Concat"
+  concat_param {
+    axis: 1
+  }
 }
+
+layer {
+  name: "conv_roi_concat"
+  type: "Convolution"
+  bottom: "concat_feat"
+  top: "conv_roi_concat"
+  param { lr_mult: 1.0 }
+  param { lr_mult: 2.0 }
+  convolution_param {
+      num_output: 512
+      kernel_size: 3 pad: 1 stride: 1
+      weight_filler { type: "gaussian" std: 0.01 }
+      bias_filler { type: "constant" value: 0 }
+    }
+}
+
+
+layer {
+  name: "relu_roi_concat"
+  type: "ReLU"
+  bottom: "conv_roi_concat"
+  top: "conv_roi_concat"
+}
+
 # ------------- cancat roi end ------------
 
 layer {
   name: "fc6"
   type: "InnerProduct"
-  bottom: "concat_feat"
+  bottom: "conv_roi_concat"
   top: "fc6"
   param {
     lr_mult: 1

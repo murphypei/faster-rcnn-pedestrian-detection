@@ -477,8 +477,8 @@ layer {
 layer {
 	bottom: "conv3_3"
 	bottom: "rois"
-	top: "roi_pool3"
-	name: "roi_pool3"
+	top: "roi_pool3_3"
+	name: "roi_pool3_3"
 	type: "ROIPooling"
 	roi_pooling_param {
 		pooled_w: 7
@@ -500,30 +500,33 @@ layer {
 	}
 }
 
-layer {
-    bottom: "roi_pool3"
-	top: "roi_pool3_flat"
-	name: "roi_pool3_flat"
-	type: "Flatten"
-}
+# layer {
+#     bottom: "roi_pool3"
+# 	top: "roi_pool3_flat"
+# 	name: "roi_pool3_flat"
+# 	type: "Flatten"
+# }
+
+# layer {
+#   bottom: "roi_pool4_3"
+# 	top: "roi_pool4_3_flat"
+# 	name: "roi_pool4_3_flat"
+# 	type: "Flatten"
+# }
 
 layer {
-  bottom: "roi_pool4_3"
-	top: "roi_pool4_3_flat"
-	name: "roi_pool4_3_flat"
-	type: "Flatten"
-}
-
-layer {
-  bottom: "roi_pool3_flat"
-	bottom: "roi_pool4_3_flat"
+  bottom: "roi_pool3_3"
+	bottom: "roi_pool4_3"
 	top: "concat_feat"
 	name: "concat_feat"
 	type: "Concat"
+  concat_param {
+    axis: 1
+  }
 }
 
 layer {
-  name: "fc6"
+  name: "fc6_concat"
   type: "InnerProduct"
   bottom: "concat_feat"
   top: "fc6"
