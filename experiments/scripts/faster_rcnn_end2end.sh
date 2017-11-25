@@ -22,6 +22,15 @@ len=${#array[@]}
 EXTRA_ARGS=${array[@]:3:$len}
 EXTRA_ARGS_SLUG=${EXTRA_ARGS// /_}
 
+
+# add ohem args
+if [[ "${EXTRA_ARGS_SLUG}" == "ohem" ]]; then
+   TRAIN_METHOD="faster_rcnn_end2end_ohem"
+else
+    TRAIN_METHOD="faster_rcnn_end2end"
+fi
+
+
 case $DATASET in
   pascal_voc)
     TRAIN_IMDB="voc_2007_trainval"
@@ -44,29 +53,24 @@ case $DATASET in
     ;;
 esac
 
-# rm dataset cache
-trash ./data/cache
-trash ./data/VOCdevkit2007/annotations_cache
-
-LOG="experiments/logs/faster_rcnn_end2end_${NET}_${EXTRA_ARGS_SLUG}.txt.`date +'%Y-%m-%d_%H-%M-%S'`"
+LOG="experiments/logs/${TRAIN_METHOD}_${NET}.txt.`date +'%Y-%m-%d_%H-%M-%S'`"
 exec &> >(tee -a "$LOG")
 echo Logging output to "$LOG"
 
 time ./tools/train_net.py --gpu ${GPU_ID} \
-  --solver models/${PT_DIR}/${NET}/faster_rcnn_end2end/solver.prototxt \
+  --solver models/${PT_DIR}/${NET}/${TRAIN_METHOD}/solver.prototxt \
   --weights data/imagenet_models/${NET}.v2.caffemodel \
   --imdb ${TRAIN_IMDB} \
   --iters ${ITERS} \
-  --cfg experiments/cfgs/faster_rcnn_end2end.yml \
-  ${EXTRA_ARGS}
+  --cfg experiments/cfgs/${TRAIN_METHOD}.yml \
+
 
 set +x
 NET_FINAL=`grep -B 1 "done solving" ${LOG} | grep "Wrote snapshot" | awk '{print $4}'`
 set -x
 
 time ./tools/test_net.py --gpu ${GPU_ID} \
-  --def models/${PT_DIR}/${NET}/faster_rcnn_end2end/test.prototxt \
+  --def models/${PT_DIR}/${NET}/${TRAIN_METHOD}/test.prototxt \
   --net ${NET_FINAL} \
   --imdb ${TEST_IMDB} \
-  --cfg experiments/cfgs/faster_rcnn_end2end_ohem.yml \
-  ${EXTRA_ARGS}
+  --cfg experiments/cfgs/${TRAIN_METHOD}.yml \

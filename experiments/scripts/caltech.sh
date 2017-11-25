@@ -15,9 +15,9 @@ len=${#array[@]}                # args array length
 EXTRA_ARGS=${array[@]:3:$len}   # get another args after 3 args
 EXTRA_ARGS_SLUG=${EXTRA_ARGS// /_}
 
+
 # add ohem args
-RESULT=$(echo ${EXTRA_ARGS_SLUG} | grep "ohem")
-if [[ "${RESULT}" != "" ]]; then
+if [[ "${EXTRA_ARGS_SLUG}" == "ohem" ]]; then
    TRAIN_METHOD="faster_rcnn_end2end_ohem"
 else
     TRAIN_METHOD="faster_rcnn_end2end"
@@ -41,7 +41,7 @@ case $DATASET in
     # time to the LR drop (set in the solver to 350,000 iterations).
     TRAIN_IMDB="caltech_reasonable_trainval"
     TEST_IMDB="caltech_reasonable_test"
-    ITERS=70000
+    ITERS=110000
     ;;
     person)
     # This is a very long and slow training schedule
@@ -67,7 +67,7 @@ esac
 # echo ${ITERS}
 # exit
 
-LOG="experiments/logs/${TRAIN_METHOD}_${NET}_${EXTRA_ARGS_SLUG}.txt.`date +'%Y-%m-%d_%H-%M-%S'`"
+LOG="experiments/logs/${TRAIN_METHOD}_${NET}.txt.`date +'%Y-%m-%d_%H-%M-%S'`"
 exec &> >(tee -a "$LOG")
 echo Logging output to "$LOG"
 
