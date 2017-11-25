@@ -536,19 +536,6 @@ layer {
 
 # ------------- cancat roi start ------------
 layer {
-	bottom: "conv3_3"
-	bottom: "rois"
-	top: "roi_pool3_3"
-	name: "roi_pool3_3"
-	type: "ROIPooling"
-	roi_pooling_param {
-		pooled_w: 7
-		pooled_h: 7
-		spatial_scale: 0.25  # (1/4)
-	}
-}
-
-layer {
 	bottom: "conv4_3"
 	bottom: "rois"
 	top: "roi_pool4_3"
@@ -558,6 +545,19 @@ layer {
 		pooled_w: 7
 		pooled_h: 7
 		spatial_scale: 0.125  # (1/8)
+	}
+}
+
+layer {
+	bottom: "conv5_3"
+	bottom: "rois"
+	top: "roi_pool5_3"
+	name: "roi_pool5_3"
+	type: "ROIPooling"
+	roi_pooling_param {
+		pooled_w: 7
+		pooled_h: 7
+		spatial_scale: 0.0625  # (1/16)
 	}
 }
 
@@ -576,8 +576,8 @@ layer {
 # }
 
 layer {
-  bottom: "roi_pool3_3"
-	bottom: "roi_pool4_3"
+  bottom: "roi_pool4_3"
+	bottom: "roi_pool5_3"
 	top: "concat_feat"
 	name: "concat_feat"
 	type: "Concat"
