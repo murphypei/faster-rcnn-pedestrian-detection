@@ -1,4 +1,4 @@
-name: "VGG_ILSVRC_16_layers"
+name: "VGG16_CONCAT"
 
 input: "data"
 input_shape {
@@ -308,88 +308,88 @@ layer {
     stride: 2
   }
 }
-# layer {
-#   name: "conv5_1"
-#   type: "Convolution"
-#   bottom: "pool4"
-#   top: "conv5_1"
-#   param {
-#     lr_mult: 1
-#     decay_mult: 1
-#   }
-#   param {
-#     lr_mult: 2
-#     decay_mult: 0
-#   }
-#   convolution_param {
-#     num_output: 512
-#     pad: 1
-#     kernel_size: 3
-#   }
-# }
-# layer {
-#   name: "relu5_1"
-#   type: "ReLU"
-#   bottom: "conv5_1"
-#   top: "conv5_1"
-# }
-# layer {
-#   name: "conv5_2"
-#   type: "Convolution"
-#   bottom: "conv5_1"
-#   top: "conv5_2"
-#   param {
-#     lr_mult: 1
-#     decay_mult: 1
-#   }
-#   param {
-#     lr_mult: 2
-#     decay_mult: 0
-#   }
-#   convolution_param {
-#     num_output: 512
-#     pad: 1
-#     kernel_size: 3
-#   }
-# }
-# layer {
-#   name: "relu5_2"
-#   type: "ReLU"
-#   bottom: "conv5_2"
-#   top: "conv5_2"
-# }
-# layer {
-#   name: "conv5_3"
-#   type: "Convolution"
-#   bottom: "conv5_2"
-#   top: "conv5_3"
-#   param {
-#     lr_mult: 1
-#     decay_mult: 1
-#   }
-#   param {
-#     lr_mult: 2
-#     decay_mult: 0
-#   }
-#   convolution_param {
-#     num_output: 512
-#     pad: 1
-#     kernel_size: 3
-#   }
-# }
-# layer {
-#   name: "relu5_3"
-#   type: "ReLU"
-#   bottom: "conv5_3"
-#   top: "conv5_3"
-# }
+layer {
+  name: "conv5_1"
+  type: "Convolution"
+  bottom: "pool4"
+  top: "conv5_1"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 512
+    pad: 1
+    kernel_size: 3
+  }
+}
+layer {
+  name: "relu5_1"
+  type: "ReLU"
+  bottom: "conv5_1"
+  top: "conv5_1"
+}
+layer {
+  name: "conv5_2"
+  type: "Convolution"
+  bottom: "conv5_1"
+  top: "conv5_2"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 512
+    pad: 1
+    kernel_size: 3
+  }
+}
+layer {
+  name: "relu5_2"
+  type: "ReLU"
+  bottom: "conv5_2"
+  top: "conv5_2"
+}
+layer {
+  name: "conv5_3"
+  type: "Convolution"
+  bottom: "conv5_2"
+  top: "conv5_3"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 512
+    pad: 1
+    kernel_size: 3
+  }
+}
+layer {
+  name: "relu5_3"
+  type: "ReLU"
+  bottom: "conv5_3"
+  top: "conv5_3"
+}
 
 #========= RPN ============
 
 layer {
   name: "rpn_conv/3x3"
   type: "Convolution"
-  bottom: "conv4_3"
+  bottom: "conv5_3"
   top: "rpn/output"
   param { lr_mult: 1.0 decay_mult: 1.0 }
   param { lr_mult: 2.0 decay_mult: 0 }
@@ -474,22 +474,87 @@ layer {
 
 #========= RCNN ============
 
+# ------------- cancat roi start ------------
 layer {
-  name: "roi_pool5"
-  type: "ROIPooling"
-  bottom: "conv4_3"
-  bottom: "rois"
-  top: "pool5"
-  roi_pooling_param {
-    pooled_w: 14
-    pooled_h: 14
-    spatial_scale: 0.125 # conv4: 1/8, conv5: 1/16
+	bottom: "conv4_3"
+	bottom: "rois"
+	top: "roi_pool4_3"
+	name: "roi_pool4_3"
+	type: "ROIPooling"
+	roi_pooling_param {
+		pooled_w: 7
+		pooled_h: 7
+		spatial_scale: 0.125  # (1/8)
+	}
+}
+
+layer {
+	bottom: "conv5_3"
+	bottom: "rois"
+	top: "roi_pool5_3"
+	name: "roi_pool5_3"
+	type: "ROIPooling"
+	roi_pooling_param {
+		pooled_w: 7
+		pooled_h: 7
+		spatial_scale: 0.0625  # (1/16)
+	}
+}
+
+# layer {
+#   bottom: "roi_pool3"
+# 	top: "roi_pool3_flat"
+# 	name: "roi_pool3_flat"
+# 	type: "Flatten"
+# }
+
+# layer {
+#   bottom: "roi_pool4_3"
+# 	top: "roi_pool4_3_flat"
+# 	name: "roi_pool4_3_flat"
+# 	type: "Flatten"
+# }
+
+layer {
+  bottom: "roi_pool4_3"
+	bottom: "roi_pool5_3"
+	top: "concat_feat"
+	name: "concat_feat"
+	type: "Concat"
+  concat_param {
+    axis: 1
   }
 }
+
+layer {
+  name: "conv_roi_concat"
+  type: "Convolution"
+  bottom: "concat_feat"
+  top: "conv_roi_concat"
+  param { lr_mult: 1.0 }
+  param { lr_mult: 2.0 }
+  convolution_param {
+      num_output: 512
+      kernel_size: 3 pad: 1 stride: 1
+      weight_filler { type: "gaussian" std: 0.01 }
+      bias_filler { type: "constant" value: 0 }
+    }
+}
+
+
+layer {
+  name: "relu_roi_concat"
+  type: "ReLU"
+  bottom: "conv_roi_concat"
+  top: "conv_roi_concat"
+}
+
+# ------------- cancat roi end ------------
+
 layer {
   name: "fc6"
   type: "InnerProduct"
-  bottom: "pool5"
+  bottom: "conv_roi_concat"
   top: "fc6"
   param {
     lr_mult: 1
