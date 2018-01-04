@@ -17,38 +17,46 @@ EXTRA_ARGS_SLUG=${EXTRA_ARGS// /_}
 
 
 # add ohem args
-if [[ "${EXTRA_ARGS_SLUG}" == "ohem" ]]; then
-   TRAIN_METHOD="faster_rcnn_end2end_ohem"
-else
+if [[ ! -n $EXTRA_ARGS_SLUG ]]; then
     TRAIN_METHOD="faster_rcnn_end2end"
+elif [[ $EXTRA_ARGS_SLUG = "ohem" ]]; then
+    TRAIN_METHOD="faster_rcnn_end2end_ohem"
+else
+    echo "Invalid input train method:"
+    echo ${EXTRA_ARGS_SLUG}
+    exit
 fi
 
-PT_DIR="caltech"
-
-
 case $DATASET in
-    all)
-    # This is a very long and slow training schedule
-    # You can probably use fewer iterations and reduce the
-    # time to the LR drop (set in the solver to 350,000 iterations).
+    caltech_all)
     TRAIN_IMDB="caltech_all_trainval"
     TEST_IMDB="caltech_all_test"
-    ITERS=120000
+    PT_DIR="caltech"
+    ITERS=150000
     ;;
-    reasonable)
-    # This is a very long and slow training schedule
-    # You can probably use fewer iterations and reduce the
-    # time to the LR drop (set in the solver to 350,000 iterations).
+    caltech_reasonable)
     TRAIN_IMDB="caltech_reasonable_trainval"
     TEST_IMDB="caltech_reasonable_test"
-    ITERS=110000
+    ITERS=120000
     ;;
-    person)
-    # This is a very long and slow training schedule
-    # You can probably use fewer iterations and reduce the
-    # time to the LR drop (set in the solver to 350,000 iterations).
+    caltech_person)
     TRAIN_IMDB="caltech_person_trainval"
     TEST_IMDB="caltech_person_test"
+    ITERS=120000
+    ;;
+    inria_all)
+    TRAIN_IMDB="inria_all_trainval"
+    TEST_IMDB="inria_all_test"
+    ITERS=70000
+    ;;
+    inria_reasonable)
+    TRAIN_IMDB="inria_reasonable_trainval"
+    TEST_IMDB="inria_reasonable_test"
+    ITERS=70000
+    ;;
+    inria_person)
+    TRAIN_IMDB="inria_person_trainval"
+    TEST_IMDB="inria_person_test"
     ITERS=70000
     ;;
     *)
@@ -57,19 +65,20 @@ case $DATASET in
     ;;
 esac
 
-# echo ${GPU_ID}
-# echo ${NET}
-# echo ${DATASET}
-# echo ${TRAIN_METHOD}
-# echo ${TRAIN_IMDB}
-# echo ${TEST_IMDB}
-# echo ${PT_DIR}
-# echo ${ITERS}
-# exit
+echo ${GPU_ID}
+echo ${NET}
+echo ${DATASET}
+echo ${TRAIN_METHOD}
+echo ${TRAIN_IMDB}
+echo ${TEST_IMDB}
+echo ${PT_DIR}
+echo ${ITERS}
+
 
 LOG="experiments/logs/${TRAIN_METHOD}_${NET}.txt.`date +'%Y-%m-%d_%H-%M-%S'`"
 exec &> >(tee -a "$LOG")
 echo Logging output to "$LOG"
+
 
 time ./tools/train_net.py --gpu ${GPU_ID} \
   --solver models/${PT_DIR}/${NET}/${TRAIN_METHOD}/solver.prototxt \
