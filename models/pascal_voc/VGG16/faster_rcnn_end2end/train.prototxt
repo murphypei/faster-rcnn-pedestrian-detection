@@ -1,4 +1,5 @@
-name: "VGG_ILSVRC_16_layers"
+name: "VGG16"
+
 layer {
   name: 'input-data'
   type: 'Python'
@@ -439,7 +440,7 @@ layer {
   python_param {
     module: 'rpn.anchor_target_layer'
     layer: 'AnchorTargetLayer'
-    param_str: "'feat_stride': 16"
+    param_str: "'feat_stride': 8"
   }
 }
 
@@ -498,7 +499,7 @@ layer {
   python_param {
     module: 'rpn.proposal_layer'
     layer: 'ProposalLayer'
-    param_str: "'feat_stride': 16"
+    param_str: "'feat_stride': 8"
   }
 }
 
@@ -540,9 +541,9 @@ layer {
   bottom: "rois"
   top: "pool5"
   roi_pooling_param {
-    pooled_w: 14
-    pooled_h: 14
-    spatial_scale: 0.125 # conv4: 1/8, conv5: 1/16
+    pooled_w: 7
+    pooled_h: 7
+    spatial_scale: 0.125 # 1/16
   }
 }
 layer {
@@ -651,6 +652,13 @@ layer {
     }
   }
 }
+layer {  
+  name: "accuracy"  
+  type: "Accuracy"  
+  bottom: "cls_score"  
+  bottom: "labels"  
+  top: "accuracy"  
+} 
 layer {
   name: "loss_cls"
   type: "SoftmaxWithLoss"
@@ -670,12 +678,4 @@ layer {
   bottom: "bbox_outside_weights"
   top: "loss_bbox"
   loss_weight: 1
-}
-
-layer {
-  name: "accuracy"
-  type: "Accuracy"
-  bottom: "cls_score"
-  bottom: "labels"
-  top: "accuracy"
 }
