@@ -1,5 +1,4 @@
-name: "ResNet50"
-
+name: "ResNet-50"
 layer {
   name: 'input-data'
   type: 'Python'
@@ -24,7 +23,7 @@ layer {
     kernel_size: 7
     pad: 3
     stride: 2
-   
+    weight_filler { type: "msra" std: 0.010 }
     bias_filler { type: "constant" value: 0 }
   }
 }
@@ -48,8 +47,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "conv1_relu"
@@ -80,7 +78,7 @@ layer {
     pad: 0
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -103,8 +101,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res2a_branch2a_relu"
@@ -124,7 +121,7 @@ layer {
     pad: 1
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -147,8 +144,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res2a_branch2b_relu"
@@ -168,7 +164,7 @@ layer {
     pad: 0
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -191,8 +187,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res2a_branch1"
@@ -206,7 +201,7 @@ layer {
     pad: 0
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -229,8 +224,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
 	name: "res2a"
@@ -257,7 +251,7 @@ layer {
     pad: 0
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -280,8 +274,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res2b_branch2a_relu"
@@ -301,7 +294,7 @@ layer {
     pad: 1
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -324,8 +317,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res2b_branch2b_relu"
@@ -345,7 +337,7 @@ layer {
     pad: 0
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -368,8 +360,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
 	name: "res2b"
@@ -396,7 +387,7 @@ layer {
     pad: 0
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -419,8 +410,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res2c_branch2a_relu"
@@ -440,7 +430,7 @@ layer {
     pad: 1
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -463,8 +453,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res2c_branch2b_relu"
@@ -484,7 +473,7 @@ layer {
     pad: 0
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -507,8 +496,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
 	name: "res2c"
@@ -535,7 +523,7 @@ layer {
     pad: 0
     stride: 2
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -558,8 +546,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res3a_branch2a_relu"
@@ -579,7 +566,7 @@ layer {
     pad: 1
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -602,8 +589,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res3a_branch2b_relu"
@@ -623,7 +609,7 @@ layer {
     pad: 0
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -646,8 +632,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res3a_branch1"
@@ -661,7 +646,7 @@ layer {
     pad: 0
     stride: 2
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -684,8 +669,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
 	name: "res3a"
@@ -712,7 +696,7 @@ layer {
     pad: 0
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -735,8 +719,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res3b_branch2a_relu"
@@ -756,7 +739,7 @@ layer {
     pad: 1
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -779,8 +762,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res3b_branch2b_relu"
@@ -800,7 +782,7 @@ layer {
     pad: 0
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -823,8 +805,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
 	name: "res3b"
@@ -851,7 +832,7 @@ layer {
     pad: 0
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -874,8 +855,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res3c_branch2a_relu"
@@ -895,7 +875,7 @@ layer {
     pad: 1
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -918,8 +898,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res3c_branch2b_relu"
@@ -939,7 +918,7 @@ layer {
     pad: 0
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -962,8 +941,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
 	name: "res3c"
@@ -990,7 +968,7 @@ layer {
     pad: 0
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1013,8 +991,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res3d_branch2a_relu"
@@ -1034,7 +1011,7 @@ layer {
     pad: 1
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1057,8 +1034,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res3d_branch2b_relu"
@@ -1078,7 +1054,7 @@ layer {
     pad: 0
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1101,8 +1077,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
 	name: "res3d"
@@ -1129,7 +1104,7 @@ layer {
     pad: 0
     stride: 2
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1152,8 +1127,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res4a_branch2a_relu"
@@ -1173,7 +1147,7 @@ layer {
     pad: 1
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1196,8 +1170,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res4a_branch2b_relu"
@@ -1217,7 +1190,7 @@ layer {
     pad: 0
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1240,8 +1213,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res4a_branch1"
@@ -1255,7 +1227,7 @@ layer {
     pad: 0
     stride: 2
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1278,8 +1250,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
 	name: "res4a"
@@ -1306,7 +1277,7 @@ layer {
     pad: 0
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1329,8 +1300,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res4b_branch2a_relu"
@@ -1350,7 +1320,7 @@ layer {
     pad: 1
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1373,8 +1343,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res4b_branch2b_relu"
@@ -1394,7 +1363,7 @@ layer {
     pad: 0
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1417,8 +1386,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
 	name: "res4b"
@@ -1445,7 +1413,7 @@ layer {
     pad: 0
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1468,8 +1436,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res4c_branch2a_relu"
@@ -1489,7 +1456,7 @@ layer {
     pad: 1
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1512,8 +1479,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res4c_branch2b_relu"
@@ -1533,7 +1499,7 @@ layer {
     pad: 0
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1556,8 +1522,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
 	name: "res4c"
@@ -1584,7 +1549,7 @@ layer {
     pad: 0
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1607,8 +1572,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res4d_branch2a_relu"
@@ -1628,7 +1592,7 @@ layer {
     pad: 1
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1651,8 +1615,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res4d_branch2b_relu"
@@ -1672,7 +1635,7 @@ layer {
     pad: 0
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1695,8 +1658,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
 	name: "res4d"
@@ -1723,7 +1685,7 @@ layer {
     pad: 0
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1746,8 +1708,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res4e_branch2a_relu"
@@ -1767,7 +1728,7 @@ layer {
     pad: 1
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1790,8 +1751,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res4e_branch2b_relu"
@@ -1811,7 +1771,7 @@ layer {
     pad: 0
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1834,8 +1794,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
 	name: "res4e"
@@ -1862,7 +1821,7 @@ layer {
     pad: 0
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1885,8 +1844,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res4f_branch2a_relu"
@@ -1906,7 +1864,7 @@ layer {
     pad: 1
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1929,8 +1887,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res4f_branch2b_relu"
@@ -1950,7 +1907,7 @@ layer {
     pad: 0
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1973,8 +1930,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
 	name: "res4f"
@@ -2138,8 +2094,8 @@ layer {
   bottom: "rois"
   top: "roi_pool5"
   roi_pooling_param {
-    pooled_w: 7
-    pooled_h: 7
+    pooled_w: 14 # 7
+    pooled_h: 14 # 7
     spatial_scale: 0.062500
   }
 }
@@ -2153,9 +2109,9 @@ layer {
     num_output: 512
     kernel_size: 1
     pad: 0
-    stride: 1
+    stride: 2
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -2178,8 +2134,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res5a_branch2a_relu"
@@ -2199,7 +2154,7 @@ layer {
     pad: 1
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -2222,8 +2177,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res5a_branch2b_relu"
@@ -2243,7 +2197,7 @@ layer {
     pad: 0
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -2266,8 +2220,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res5a_branch1"
@@ -2279,9 +2232,9 @@ layer {
     num_output: 2048
     kernel_size: 1
     pad: 0
-    stride: 1
+    stride: 2
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -2304,8 +2257,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
 	name: "res5a"
@@ -2332,7 +2284,7 @@ layer {
     pad: 0
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -2355,8 +2307,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res5b_branch2a_relu"
@@ -2376,7 +2327,7 @@ layer {
     pad: 1
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -2399,8 +2350,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res5b_branch2b_relu"
@@ -2420,7 +2370,7 @@ layer {
     pad: 0
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -2443,8 +2393,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
 	name: "res5b"
@@ -2471,7 +2420,7 @@ layer {
     pad: 0
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -2494,8 +2443,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res5c_branch2a_relu"
@@ -2515,7 +2463,7 @@ layer {
     pad: 1
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -2538,8 +2486,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
   name: "res5c_branch2b_relu"
@@ -2559,7 +2506,7 @@ layer {
     pad: 0
     stride: 1
     bias_term: false
-  
+    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -2582,8 +2529,7 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 decay_mult: 0}
-  param { lr_mult: 0 decay_mult: 0}
+  param { lr_mult: 0 }
 }
 layer {
 	name: "res5c"
@@ -2618,7 +2564,7 @@ layer {
   param { lr_mult: 2 decay_mult: 0 }
   inner_product_param {
      num_output: 2
-     
+     weight_filler { type: "msra" std: 0.010 }
      bias_filler { type: "constant" value: 0 }
   }
 }
@@ -2631,7 +2577,7 @@ layer {
   param { lr_mult: 2 decay_mult: 0 }
   inner_product_param {
      num_output: 8
-     
+     weight_filler { type: "msra" std: 0.010 }
      bias_filler { type: "constant" value: 0 }
   }
 }
