@@ -1,4 +1,4 @@
-name: "VGG16_OHEM"
+name: "VGG16"
 
 layer {
   name: 'input-data'
@@ -135,6 +135,9 @@ layer {
     stride: 2
   }
 }
+
+
+
 layer {
   name: "conv3_1"
   type: "Convolution"
@@ -284,93 +287,93 @@ layer {
   bottom: "conv4_3"
   top: "conv4_3"
 }
-# layer {
-#   name: "pool4"
-#   type: "Pooling"
-#   bottom: "conv4_3"
-#   top: "pool4"
-#   pooling_param {
-#     pool: MAX
-#     kernel_size: 2
-#     stride: 2
-#   }
-# }
-# layer {
-#   name: "conv5_1"
-#   type: "Convolution"
-#   bottom: "pool4"
-#   top: "conv5_1"
-#   param {
-#     lr_mult: 1
-#   }
-#   param {
-#     lr_mult: 2
-#   }
-#   convolution_param {
-#     num_output: 512
-#     pad: 1
-#     kernel_size: 3
-#   }
-# }
-# layer {
-#   name: "relu5_1"
-#   type: "ReLU"
-#   bottom: "conv5_1"
-#   top: "conv5_1"
-# }
-# layer {
-#   name: "conv5_2"
-#   type: "Convolution"
-#   bottom: "conv5_1"
-#   top: "conv5_2"
-#   param {
-#     lr_mult: 1
-#   }
-#   param {
-#     lr_mult: 2
-#   }
-#   convolution_param {
-#     num_output: 512
-#     pad: 1
-#     kernel_size: 3
-#   }
-# }
-# layer {
-#   name: "relu5_2"
-#   type: "ReLU"
-#   bottom: "conv5_2"
-#   top: "conv5_2"
-# }
-# layer {
-#   name: "conv5_3"
-#   type: "Convolution"
-#   bottom: "conv5_2"
-#   top: "conv5_3"
-#   param {
-#     lr_mult: 1
-#   }
-#   param {
-#     lr_mult: 2
-#   }
-#   convolution_param {
-#     num_output: 512
-#     pad: 1
-#     kernel_size: 3
-#   }
-# }
-# layer {
-#   name: "relu5_3"
-#   type: "ReLU"
-#   bottom: "conv5_3"
-#   top: "conv5_3"
-# }
+layer {
+  name: "pool4"
+  type: "Pooling"
+  bottom: "conv4_3"
+  top: "pool4"
+  pooling_param {
+    pool: MAX
+    kernel_size: 2
+    stride: 2
+  }
+}
+layer {
+  name: "conv5_1"
+  type: "Convolution"
+  bottom: "pool4"
+  top: "conv5_1"
+  param {
+    lr_mult: 1
+  }
+  param {
+    lr_mult: 2
+  }
+  convolution_param {
+    num_output: 512
+    pad: 1
+    kernel_size: 3
+  }
+}
+layer {
+  name: "relu5_1"
+  type: "ReLU"
+  bottom: "conv5_1"
+  top: "conv5_1"
+}
+layer {
+  name: "conv5_2"
+  type: "Convolution"
+  bottom: "conv5_1"
+  top: "conv5_2"
+  param {
+    lr_mult: 1
+  }
+  param {
+    lr_mult: 2
+  }
+  convolution_param {
+    num_output: 512
+    pad: 1
+    kernel_size: 3
+  }
+}
+layer {
+  name: "relu5_2"
+  type: "ReLU"
+  bottom: "conv5_2"
+  top: "conv5_2"
+}
+layer {
+  name: "conv5_3"
+  type: "Convolution"
+  bottom: "conv5_2"
+  top: "conv5_3"
+  param {
+    lr_mult: 1
+  }
+  param {
+    lr_mult: 2
+  }
+  convolution_param {
+    num_output: 512
+    pad: 1
+    kernel_size: 3
+  }
+}
+layer {
+  name: "relu5_3"
+  type: "ReLU"
+  bottom: "conv5_3"
+  top: "conv5_3"
+}
 
 #========= RPN ============
 
 layer {
   name: "rpn_conv/3x3"
   type: "Convolution"
-  bottom: "conv4_3"
+  bottom: "conv5_3"
   top: "rpn/output"
   param { lr_mult: 1.0 }
   param { lr_mult: 2.0 }
@@ -440,7 +443,7 @@ layer {
   python_param {
     module: 'rpn.anchor_target_layer'
     layer: 'AnchorTargetLayer'
-    param_str: "'feat_stride': 8"
+    param_str: "'feat_stride': 16"
   }
 }
 
@@ -499,7 +502,7 @@ layer {
   python_param {
     module: 'rpn.proposal_layer'
     layer: 'ProposalLayer'
-    param_str: "'feat_stride': 8"
+    param_str: "'feat_stride': 16"
   }
 }
 
@@ -534,194 +537,245 @@ layer {
 
 #========= RCNN ============
 
-##########################
-## Readonly RoI Network ##
-######### Start ##########
 layer {
-  name: "roi_pool5_readonly"
+  name: "roi_pool3"
   type: "ROIPooling"
-  bottom: "conv5_3"
+  bottom: "conv3_3"
   bottom: "rois"
-  top: "pool5_readonly"
-  propagate_down: false
-  propagate_down: false
+  top: "pool3_1"
   roi_pooling_param {
-    pooled_w: 7
-    pooled_h: 7
-    spatial_scale: 0.0625 # 1/16
+    pooled_w: 28
+    pooled_h: 28
+    spatial_scale: 0.25 # 1/16
   }
 }
+
+
 layer {
-  name: "fc6_readonly"
-  type: "InnerProduct"
-  bottom: "pool5_readonly"
-  top: "fc6_readonly"
-  propagate_down: false
-  param {
-    name: "fc6_w"
-  }
-  param {
-    name: "fc6_b"
-  }
-  inner_product_param {
-    num_output: 4096
-  }
-}
+  name: "conv4_4"
+  type: "Convolution"
+  bottom: "pool3_1"
+  top: "conv4_4"
+  param {  
+    lr_mult: 1  
+    decay_mult: 1  
+  }  
+  param {  
+    lr_mult: 2  
+    decay_mult: 0  
+  }  
+  convolution_param {  
+    num_output: 512  
+    pad: 1  
+    kernel_size: 3  
+    weight_filler {  
+      type: "gaussian"  
+      std: 0.01  
+    }  
+    bias_filler {  
+      type: "constant"  
+      value: 0  
+    }  
+  }  
+} 
 layer {
-  name: "relu6_readonly"
+  name: "relu4_4"
   type: "ReLU"
-  bottom: "fc6_readonly"
-  top: "fc6_readonly"
-  propagate_down: false
+  bottom: "conv4_4"
+  top: "conv4_4"
 }
 layer {
-  name: "drop6_readonly"
-  type: "Dropout"
-  bottom: "fc6_readonly"
-  top: "fc6_readonly"
-  propagate_down: false
-  dropout_param {
-    dropout_ratio: 0.5
-  }
+  name: "conv4_5"
+  type: "Convolution"
+  bottom: "conv4_4"
+  top: "conv4_5"
+  param {  
+    lr_mult: 1  
+    decay_mult: 1  
+  }  
+  param {  
+    lr_mult: 2  
+    decay_mult: 0  
+  }  
+  convolution_param {  
+    num_output: 512  
+    pad: 1  
+    kernel_size: 3  
+    weight_filler {  
+      type: "gaussian"  
+      std: 0.01  
+    }  
+    bias_filler {  
+      type: "constant"  
+      value: 0  
+    }  
+  }  
 }
 layer {
-  name: "fc7_readonly"
-  type: "InnerProduct"
-  bottom: "fc6_readonly"
-  top: "fc7_readonly"
-  propagate_down: false
-  param {
-    name: "fc7_w"
-  }
-  param {
-    name: "fc7_b"
-  }
-  inner_product_param {
-    num_output: 4096
-  }
-}
-layer {
-  name: "relu7_readonly"
+  name: "relu4_5"
   type: "ReLU"
-  bottom: "fc7_readonly"
-  top: "fc7_readonly"
-  propagate_down: false
+  bottom: "conv4_5"
+  top: "conv4_5"
 }
 layer {
-  name: "drop7_readonly"
-  type: "Dropout"
-  bottom: "fc7_readonly"
-  top: "fc7_readonly"
-  propagate_down: false
-  dropout_param {
-    dropout_ratio: 0.5
-  }
+  name: "conv4_6"
+  type: "Convolution"
+  bottom: "conv4_5"
+  top: "conv4_6"
+  param {  
+    lr_mult: 1  
+    decay_mult: 1  
+  }  
+  param {  
+    lr_mult: 2  
+    decay_mult: 0  
+  }  
+  convolution_param {  
+    num_output: 512  
+    pad: 1  
+    kernel_size: 3  
+    weight_filler {  
+      type: "gaussian"  
+      std: 0.01  
+    }  
+    bias_filler {  
+      type: "constant"  
+      value: 0  
+    }  
+  }  
+} 
+layer {
+  name: "relu4_6"
+  type: "ReLU"
+  bottom: "conv4_6"
+  top: "conv4_6"
 }
 layer {
-  name: "cls_score_readonly"
-  type: "InnerProduct"
-  bottom: "fc7_readonly"
-  top: "cls_score_readonly"
-  propagate_down: false
-  param {
-    name: "cls_score_w"
-  }
-  param {
-    name: "cls_score_b"
-  }
-  inner_product_param {
-    num_output: 2
-    weight_filler {
-      type: "gaussian"
-      std: 0.01
-    }
-    bias_filler {
-      type: "constant"
-      value: 0
-    }
-  }
-}
-layer {
-  name: "bbox_pred_readonly"
-  type: "InnerProduct"
-  bottom: "fc7_readonly"
-  top: "bbox_pred_readonly"
-  propagate_down: false
-  param {
-    name: "bbox_pred_w"
-  }
-  param {
-    name: "bbox_pred_b"
-  }
-  inner_product_param {
-    num_output: 8
-    weight_filler {
-      type: "gaussian"
-      std: 0.001
-    }
-    bias_filler {
-      type: "constant"
-      value: 0
-    }
+  name: "pool4_2"
+  type: "Pooling"
+  bottom: "conv4_6"
+  top: "pool4_2"
+  pooling_param {
+    pool: MAX
+    kernel_size: 2
+    stride: 2
   }
 }
 layer {
-  name: "cls_prob_readonly"
-  type: "Softmax"
-  bottom: "cls_score_readonly"
-  top: "cls_prob_readonly"
-  propagate_down: false
+  name: "conv5_4"
+  type: "Convolution"
+  bottom: "pool4_2"
+  top: "conv5_4"
+  param {  
+    lr_mult: 1  
+    decay_mult: 1  
+  }  
+  param {  
+    lr_mult: 2  
+    decay_mult: 0  
+  }  
+  convolution_param {  
+    num_output: 512  
+    pad: 1  
+    kernel_size: 3  
+    weight_filler {  
+      type: "gaussian"  
+      std: 0.01  
+    }  
+    bias_filler {  
+      type: "constant"  
+      value: 0  
+    }  
+  }  
 }
 layer {
-  name: "hard_roi_mining"
-  type: "Python"
-  bottom: "cls_prob_readonly"
-  bottom: "bbox_pred_readonly"
-  bottom: "rois"
-  bottom: "labels"
-  bottom: "bbox_targets"
-  bottom: "bbox_inside_weights"
-  bottom: "bbox_outside_weights"
-  top: "rois_hard"
-  top: "labels_hard"
-  top: "bbox_targets_hard"
-  top: "bbox_inside_weights_hard"
-  top: "bbox_outside_weights_hard"
-  propagate_down: false
-  propagate_down: false
-  propagate_down: false
-  propagate_down: false
-  propagate_down: false
-  propagate_down: false
-  propagate_down: false
-  python_param {
-    module: "roi_data_layer.layer"
-    layer: "OHEMDataLayer"
-    param_str: "'num_classes': 2"
-  }
+  name: "relu5_4"
+  type: "ReLU"
+  bottom: "conv5_4"
+  top: "conv5_4"
 }
+layer {
+  name: "conv5_5"
+  type: "Convolution"
+  bottom: "conv5_4"
+  top: "conv5_5"
+  param {  
+    lr_mult: 1  
+    decay_mult: 1  
+  }  
+  param {  
+    lr_mult: 2  
+    decay_mult: 0  
+  }  
+  convolution_param {  
+    num_output: 512  
+    pad: 1  
+    kernel_size: 3  
+    weight_filler {  
+      type: "gaussian"  
+      std: 0.01  
+    }  
+    bias_filler {  
+      type: "constant"  
+      value: 0  
+    }  
+  }  
+} 
+layer {
+  name: "relu5_5"
+  type: "ReLU"
+  bottom: "conv5_5"
+  top: "conv5_5"
+}
+layer {
+  name: "conv5_6"
+  type: "Convolution"
+  bottom: "conv5_5"
+  top: "conv5_6"
+  param {  
+    lr_mult: 1  
+    decay_mult: 1  
+  }  
+  param {  
+    lr_mult: 2  
+    decay_mult: 0  
+  }  
+  convolution_param {  
+    num_output: 512  
+    pad: 1  
+    kernel_size: 3  
+    weight_filler {  
+      type: "gaussian"  
+      std: 0.01  
+    }  
+    bias_filler {  
+      type: "constant"  
+      value: 0  
+    }  
+  }  
+}
+layer {  
+  bottom: "conv5_6"  
+  top: "conv5_6"  
+  name: "relu5_6"  
+  type: "ReLU"  
+}  
+layer {  
+  bottom: "conv5_6"  
+  top: "pool5_2"  
+  name: "pool5_2"  
+  type: "Pooling"  
+  pooling_param {  
+    pool: MAX  
+    kernel_size: 2  
+    stride: 2  
+  }  
+}  
 
-########## End ###########
-## Readonly RoI Network ##
-##########################
-
-
-layer {
-  name: "roi_pool5"
-  type: "ROIPooling"
-  bottom: "conv5_3"
-  bottom: "rois_hard"
-  top: "pool5"
-  roi_pooling_param {
-    pooled_w: 7
-    pooled_h: 7
-    spatial_scale: 0.0625 # 1/16
-  }
-}
 layer {
   name: "fc6"
   type: "InnerProduct"
-  bottom: "pool5"
+  bottom: "pool5_2"
   top: "fc6"
   param {
     lr_mult: 1
@@ -828,7 +882,7 @@ layer {
   name: "loss_cls"
   type: "SoftmaxWithLoss"
   bottom: "cls_score"
-  bottom: "labels_hard"
+  bottom: "labels"
   propagate_down: 1
   propagate_down: 0
   top: "loss_cls"
@@ -838,9 +892,9 @@ layer {
   name: "loss_bbox"
   type: "SmoothL1Loss"
   bottom: "bbox_pred"
-  bottom: "bbox_targets_hard"
-  bottom: "bbox_inside_weights_hard"
-  bottom: "bbox_outside_weights_hard"
+  bottom: "bbox_targets"
+  bottom: "bbox_inside_weights"
+  bottom: "bbox_outside_weights"
   top: "loss_bbox"
   loss_weight: 1
 }
