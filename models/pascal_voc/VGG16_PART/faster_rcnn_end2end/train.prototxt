@@ -898,3 +898,10 @@ layer {
   top: "loss_bbox"
   loss_weight: 1
 }
+layer {  
+  name: "accuracy"  
+  type: "Accuracy"  
+  bottom: "cls_score"  
+  bottom: "labels"  
+  top: "accuracy"  
+} 
