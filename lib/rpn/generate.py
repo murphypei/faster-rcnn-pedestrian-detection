@@ -109,8 +109,7 @@ def imdb_proposals(net, imdb):
         _t.toc()
         print 'im_proposals: {:d}/{:d} {:.3f}s' \
               .format(i + 1, imdb.num_images, _t.average_time)
-        if i == 0:
-            print imdb_boxes[i], scores
+        if 0:
             dets = np.hstack((imdb_boxes[i], scores))
             # from IPython import embed; embed()
             _vis_proposals(im, dets[:3, :], thresh=0.9)

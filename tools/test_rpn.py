@@ -92,14 +92,15 @@ if __name__ == '__main__':
     print 'Wrote RPN proposals to {}'.format(rpn_file)
 
     # eval_recall
-    imdb.set_proposal_method("rpn")
+    method = "rpn"
+    imdb.set_proposal_method(method)
     imdb.config['rpn_file'] = rpn_file
     candidate_boxes = None
     results = imdb.evaluate_recall(candidate_boxes=candidate_boxes)
     ar, gt_overlaps, recalls, thresholds = results['ar'], results['gt_overlaps'], results['recalls'], results['thresholds']
-    print results
+    # print results
 
-    print 'Method: {}'.format(args.method)
+    print 'Method: {}'.format(method)
     print 'AverageRec: {:.3f}'.format(ar)
 
     def recall_at(t):
