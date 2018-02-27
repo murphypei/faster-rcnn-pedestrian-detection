@@ -10,6 +10,7 @@ from utils.blob import im_list_to_blob
 from utils.timer import Timer
 import numpy as np
 import cv2
+import matplotlib.pyplot as plt
 
 def _vis_proposals(im, dets, thresh=0.5):
     """Draw detected bounding boxes."""
@@ -108,7 +109,8 @@ def imdb_proposals(net, imdb):
         _t.toc()
         print 'im_proposals: {:d}/{:d} {:.3f}s' \
               .format(i + 1, imdb.num_images, _t.average_time)
-        if 0:
+        if i == 0:
+            print imdb_boxes[i], scores
             dets = np.hstack((imdb_boxes[i], scores))
             # from IPython import embed; embed()
             _vis_proposals(im, dets[:3, :], thresh=0.9)
