@@ -20,6 +20,7 @@ import pprint
 import numpy as np
 import sys
 
+
 def parse_args():
     """
     Parse input arguments
