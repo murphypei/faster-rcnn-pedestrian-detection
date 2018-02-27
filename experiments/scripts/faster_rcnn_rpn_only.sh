@@ -29,7 +29,7 @@ case $DATASET in
     TRAIN_IMDB="voc_2007_trainval"
     TEST_IMDB="voc_2007_test"
     PT_DIR="pascal_voc"
-    ITERS=40000
+    ITERS=50000
     ;;
   coco)
     echo "Not implemented: use experiments/scripts/faster_rcnn_end2end.sh for coco"
@@ -41,13 +41,14 @@ case $DATASET in
     ;;
 esac
 
-LOG="experiments/logs/faster_rcnn_alt_opt_${NET}_${EXTRA_ARGS_SLUG}.txt.`date +'%Y-%m-%d_%H-%M-%S'`"
+LOG="experiments/logs/faster_rcnn_rpn_only_${NET}_${EXTRA_ARGS_SLUG}.txt.`date +'%Y-%m-%d_%H-%M-%S'`"
 exec &> >(tee -a "$LOG")
 echo Logging output to "$LOG"
 
 time ./tools/train_faster_rcnn_rpn_only.py --gpu ${GPU_ID} \
   --net_name ${NET} \
   --weights data/imagenet_models/${NET}.v2.caffemodel \
+  --iters ${ITERS}
   --imdb ${TRAIN_IMDB} \
   --cfg experiments/cfgs/faster_rcnn_alt_opt.yml \
   --test_imdb ${TEST_IMDB}
