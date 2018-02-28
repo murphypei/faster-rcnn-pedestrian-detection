@@ -1,0 +1,9 @@
+EXP_DIR: faster_rcnn_rpn_only
+TRAIN:
+  BG_THRESH_LO: 0.0
+  
+  RPN_POSITIVE_OVERLAP: 0.75
+  RPN_NEGATIVE_OVERLAP: 0.45
+
+TEST:
+    HAS_RPN: True
