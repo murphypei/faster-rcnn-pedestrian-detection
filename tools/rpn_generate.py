@@ -66,8 +66,8 @@ if __name__ == '__main__':
     cfg.GPU_ID = args.gpu_id
 
     # RPN test settings
-    cfg.TEST.RPN_PRE_NMS_TOP_N = -1
-    cfg.TEST.RPN_POST_NMS_TOP_N = 2000
+    # cfg.TEST.RPN_PRE_NMS_TOP_N = -1
+    # cfg.TEST.RPN_POST_NMS_TOP_N = 300
 
     print('Using config:')
     pprint.pprint(cfg)

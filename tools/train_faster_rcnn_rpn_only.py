@@ -173,8 +173,6 @@ def rpn_generate(queue=None,
     """Use a trained RPN to generate proposals.
     """
 
-    cfg.TEST.RPN_PRE_NMS_TOP_N = -1  # no pre NMS filtering
-    cfg.TEST.RPN_POST_NMS_TOP_N = 2000  # limit top boxes after NMS
     print 'RPN model: {}'.format(rpn_model_path)
     print('Using config:')
     pprint.pprint(cfg)
@@ -232,7 +230,6 @@ if __name__ == '__main__':
     print 'Stage 1 RPN, init from ImageNet model'
     print '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
 
-    cfg.TRAIN.SNAPSHOT_INFIX = 'stage1'
     mp_kwargs = dict(
         queue=mp_queue,
         imdb_name=args.imdb_name,

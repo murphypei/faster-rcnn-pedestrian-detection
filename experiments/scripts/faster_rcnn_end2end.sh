@@ -62,7 +62,7 @@ time ./tools/train_net.py --gpu ${GPU_ID} \
   --weights data/imagenet_models/${NET}.v2.caffemodel \
   --imdb ${TRAIN_IMDB} \
   --iters ${ITERS} \
-  --cfg experiments/cfgs/${TRAIN_METHOD}.yml \
+  --cfg experiments/cfgs/${TRAIN_METHOD}.yml
 
 
 set +x

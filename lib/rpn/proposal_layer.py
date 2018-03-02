@@ -62,11 +62,10 @@ class ProposalLayer(caffe.Layer):
         assert bottom[0].data.shape[0] == 1, \
             'Only single item batches are supported'
 
-        cfg_key = str(self.phase) # either 'TRAIN' or 'TEST'
-        if str(self.phase) == '1':
-            cfg_key = 'TRAIN'
-        else:
-            cfg_key = 'TEST'
+        # cfg_key = str(self.phase) # either 'TRAIN' or 'TEST'
+        
+        cfg_key = 'TEST' if self.phase == 1 else 'TRAIN'
+        
         pre_nms_topN  = cfg[cfg_key].RPN_PRE_NMS_TOP_N
         post_nms_topN = cfg[cfg_key].RPN_POST_NMS_TOP_N
         nms_thresh    = cfg[cfg_key].RPN_NMS_THRESH

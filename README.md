@@ -4,6 +4,7 @@ This code extends [py-faster-rcnn](https://github.com/rbgirshick/py-faster-rcnn)
   * ResNet implementation.
   * Online Hard Example Mining.
   * Caltech Dataset train and test interface. 
+  * Add RPN tools.
 
 ## Base
 

@@ -107,6 +107,10 @@ def imdb_proposals(net, imdb):
         _t.tic()
         imdb_boxes[i], scores = im_proposals(net, im)
         _t.toc()
+        
+        print scores.shape, imdb_boxes[i].shape
+
+
         print 'im_proposals: {:d}/{:d} {:.3f}s' \
               .format(i + 1, imdb.num_images, _t.average_time)
         if 0:

@@ -4,7 +4,7 @@
 # DATASET is only pascal_voc for now
 #
 # Example:
-# ./experiments/scripts/faster_rcnn_rpn_only.sh 0 VGG_CNN_M_1024 pascal_voc \
+# ./experiments/scripts/faster_rcnn_rpn_only.sh 0 VGG_CNN_M_1024 pascal_voc --iters ${ITERS} \\
 #   --set EXP_DIR foobar RNG_SEED 42 TRAIN.SCALES "[400, 500, 600, 700]"
 
 # Train rpn only
@@ -29,7 +29,6 @@ case $DATASET in
     TRAIN_IMDB="voc_2007_trainval"
     TEST_IMDB="voc_2007_test"
     PT_DIR="pascal_voc"
-    ITERS=50000
     ;;
   coco)
     echo "Not implemented: use experiments/scripts/faster_rcnn_end2end.sh for coco"
@@ -48,7 +47,6 @@ echo Logging output to "$LOG"
 time ./tools/train_faster_rcnn_rpn_only.py --gpu ${GPU_ID} \
   --net_name ${NET} \
   --weights data/imagenet_models/${NET}.v2.caffemodel \
-  --iters ${ITERS} \
   --imdb ${TRAIN_IMDB} \
   --cfg experiments/cfgs/faster_rcnn_rpn_only.yml \
   --test_imdb ${TEST_IMDB} \
