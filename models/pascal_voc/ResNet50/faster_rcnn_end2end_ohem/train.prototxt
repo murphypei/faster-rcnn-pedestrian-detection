@@ -4184,3 +4184,10 @@ layer {
   propagate_down: false
   loss_weight: 1
 }
+layer {  
+  name: "accuracy"  
+  type: "Accuracy"  
+  bottom: "cls_score"  
+  bottom: "labels_hard"  
+  top: "accuracy"  
+} 
