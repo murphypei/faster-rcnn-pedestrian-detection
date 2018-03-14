@@ -61,14 +61,25 @@ if __name__ == '__main__':
         return recalls[ind]
 
     print 'Recall@0.5: {:.3f}'.format(recall_at(0.5))
+    print 'Recall@0.55: {:.3f}'.format(recall_at(0.55))
     print 'Recall@0.6: {:.3f}'.format(recall_at(0.6))
+    print 'Recall@0.65: {:.3f}'.format(recall_at(0.65))
     print 'Recall@0.7: {:.3f}'.format(recall_at(0.7))
+    print 'Recall@0.75: {:.3f}'.format(recall_at(0.75))
     print 'Recall@0.8: {:.3f}'.format(recall_at(0.8))
+    print 'Recall@0.85: {:.3f}'.format(recall_at(0.85))
     print 'Recall@0.9: {:.3f}'.format(recall_at(0.9))
+    print 'Recall@0.95: {:.3f}'.format(recall_at(0.95))
     # print again for easy spreadsheet copying
     print '{:.3f}'.format(ar)
     print '{:.3f}'.format(recall_at(0.5))
+    print '{:.3f}'.format(recall_at(0.55))
     print '{:.3f}'.format(recall_at(0.6))
+    print '{:.3f}'.format(recall_at(0.65))
     print '{:.3f}'.format(recall_at(0.7))
+    print '{:.3f}'.format(recall_at(0.75))
     print '{:.3f}'.format(recall_at(0.8))
+    print '{:.3f}'.format(recall_at(0.85))
     print '{:.3f}'.format(recall_at(0.9))
+    print '{:.3f}'.format(recall_at(0.95))
+
