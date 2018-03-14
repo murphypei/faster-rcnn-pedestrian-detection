@@ -36,6 +36,9 @@ import numpy as np
 
 # faster size: ratios=[0.5, 1, 2], scales=2**np.arange(3, 6)
 
+# def generate_anchors(base_size=16, ratios=[2, 4],
+#                      scales=np.array([2, 4, 8, 16, 32])):
+
 def generate_anchors(base_size=16, ratios=[1 / 0.41],
                      scales=2.6*(1.3**np.arange(0, 9))):
     """
