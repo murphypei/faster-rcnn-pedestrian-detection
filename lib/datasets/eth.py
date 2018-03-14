@@ -1,4 +1,11 @@
-#! -*- coding:utf-8 -*-
+# --------------------------------------------------------
+# Fast R-CNN
+# Copyright (c) 2015 Microsoft
+# Licensed under The MIT License [see LICENSE for details]
+# Written by Ross Girshick
+# --------------------------------------------------------
+
+#This is negative_ignore version of imdb class for Caltech Pedestrian dataset
 
 import re
 import os
@@ -36,18 +43,16 @@ class eth(imdb):
             "include_background": False
         }
         self._image_set = image_set
-        self._devkit_path = self._get_default_path(
-        ) if devkit_path is None else devkit_path
-        self._data_path = os.path.join("data", self._devkit_path, 'INRIA')
+        self._devkit_path = self._get_default_path() if devkit_path is None \
+                            else devkit_path
+        self._data_path = os.path.join("data", self._devkit_path, 'data')
         self._classes = (
             '__background__',  # always index 0
             'person')
         self._class_to_ind = dict(zip(self.classes, xrange(self.num_classes)))
-        annotation_path = os.path.join(self._data_path,
-                                       "INRIA_annotations.json")
-        assert os.path.exists(
-            annotation_path), 'Annotation path does not exist.: {}'.format(
-                annotation_path)
+        annotation_path = os.path.join(self._data_path, "annotations.json")
+        assert os.path.exists(annotation_path), \
+                'Annotation path does not exist.: {}'.format(annotation_path)
 
         self._annotation = json.load(open(annotation_path))
 
@@ -56,6 +61,7 @@ class eth(imdb):
         # Default to roidb handler
         self._roidb_handler = self.selective_search_roidb
         self._salt = str(uuid.uuid4())
+        #
         '''
         # Caltech Pedestrain specific config options
         self.config = {'cleanup'     : True,
@@ -65,12 +71,9 @@ class eth(imdb):
                        'rpn_file'    : None,
                        'min_size'    : 2}
         '''
-        # not usre if I should keep this line
-        # assert os.path.exists(self._devkit_path), \
-        #        'VOCdevkit path does not exist: {}'.format(self._devkit_path)
-        assert os.path.exists(
-            self._data_path), 'Path does not exist: {}'.format(
-                self._data_path)
+
+        assert os.path.exists(self._data_path), \
+                'Path does not exist: {}'.format(self._data_path)
 
     def image_path_at(self, i):
         """
@@ -85,12 +88,9 @@ class eth(imdb):
 
         image_path = os.path.join(self._data_path, 'images',
                                   index + self._image_ext)
-        assert os.path.exists(image_path), 'Path does not exist: {}'.format(
-            image_path)
+        assert os.path.exists(image_path), \
+                'Path does not exist: {}'.format(image_path)
         return image_path
-
-
-# Strategy: get the index from annotation dictionary
 
     def _load_image_set_list(self):
         image_set_file = os.path.join(self._data_path,
@@ -138,7 +138,7 @@ class eth(imdb):
             pos = box['pos']
             pos_v = box['posv']
             occl = box['occl']
-            # label = box["lbl"]
+            label = box["lbl"]
 
             pos_area = pos[2] * pos[3]
 
@@ -179,7 +179,8 @@ class eth(imdb):
         ]
 
         image_path = os.path.join(self._data_path, 'images')
-        assert os.path.exists(image_path), 'Path does not exist: {}'.format(image_path)
+        assert os.path.exists( image_path), \
+                'Path does not exist: {}'.format( image_path)
         image_index = []
 
         print(image_set_list)
@@ -187,7 +188,7 @@ class eth(imdb):
         method_mapper = {
             "reasonable": self.reasonable_index,
             "all": self.all_index,
-            "person": self.person_class_index
+            "person_class": self.person_class_index
         }
 
         image_index = method_mapper[self.version](image_set_list)
@@ -290,7 +291,7 @@ class eth(imdb):
 
         return self.create_roidb_from_box_list(box_list, gt_roidb)
 
-    # Assign negtaive example to __background__ as whole image
+    #Assign negtaive example to __background__ as whole image
     def _load_caltech_annotation(self, index):
         def verify_person_class(box):
             return box['lbl'] == 'person'
@@ -305,7 +306,7 @@ class eth(imdb):
             pos = box['pos']
             pos_v = box['posv']
             occl = box['occl']
-            # label = box["lbl"]
+            label = box["lbl"]
 
             pos_area = pos[2] * pos[3]
 
@@ -324,16 +325,17 @@ class eth(imdb):
 
         verify_all = lambda box: True
         """
-        Load image and bounding boxes info from XML file in the PASCAL VOC format.
+        Load image and bounding boxes info from XML file in the PASCAL VOC
+        format.
         """
         filename = os.path.join(self._data_path, "annotation.json")
-        # annotation = json.load(open(filename))
+        #annotation = json.load(open(filename))
         set_num, v_num, frame_num = index.split("_")
         bboxes = self._annotation[set_num][v_num]["frames"][frame_num]
         print(len(bboxes))
 
         verify_methods = {
-            "person": verify_person_class,
+            "person_class_only": verify_person_class,
             "reasonable": verify_reasonable,
             "all": verify_all
         }
@@ -350,11 +352,10 @@ class eth(imdb):
         overlaps = np.zeros((num_objs, self.num_classes), dtype=np.float32)
         # "Seg" area for pascal is just the box area
         seg_areas = np.zeros((num_objs), dtype=np.float32)
-        # Becareful about the coordinate format
+        #Becareful about the coordinate format
         # Load object bounding boxes into a data frame.
 
         cls = 1
-
         # This is possitive example
         for ix, bbox in enumerate(bboxes):
 
@@ -402,10 +403,8 @@ class eth(imdb):
             '''
             return [atoi(c) for c in re.split('(\d+)', text)]
 
-        def insert_frame(target_frames,
-                         file_path,
-                         start_frame=30,
-                         frame_rate=30):
+        def insert_frame(target_frames, file_path, start_frame=0,
+                         frame_rate=1):
             file_name = file_path.split("/")[-1]
             set_num, v_num, frame_num = file_name[:-4].split("_")
             if int(frame_num) >= start_frame and int(
@@ -579,10 +578,10 @@ class eth(imdb):
             self.config['use_salt'] = True
             self.config['cleanup'] = True
 
-if __name__ == '__main__':
 
-    from datasets.eth import eth
-    d = eth("trainval")
+if __name__ == '__main__':
+    from datasets.pascal_voc import caltech
+    d = caltech("trainval")
     res = d.roidb
     from IPython import embed
     embed()
