@@ -56,7 +56,7 @@ class eth(imdb):
 
         self._annotation = json.load(open(annotation_path))
 
-        self._image_ext = '.jpg'
+        self._image_ext = '.png'
         self._image_index = self._load_image_set_index()
         # Default to roidb handler
         self._roidb_handler = self.selective_search_roidb
@@ -403,7 +403,7 @@ class eth(imdb):
             '''
             return [atoi(c) for c in re.split('(\d+)', text)]
 
-        def insert_frame(target_frames, file_path, start_frame=0,
+        def insert_frame(target_frames, file_path, start_frame=1,
                          frame_rate=1):
             file_name = file_path.split("/")[-1]
             set_num, v_num, frame_num = file_name[:-4].split("_")
