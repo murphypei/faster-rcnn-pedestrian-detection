@@ -6,6 +6,7 @@
 # --------------------------------------------------------
 
 from fast_rcnn.config import cfg
+from fast_rcnn.nms_wrapper import nms
 from utils.blob import im_list_to_blob
 from utils.timer import Timer
 import numpy as np
@@ -18,7 +19,12 @@ def _vis_proposals(im, dets, thresh=0.5):
     if len(inds) == 0:
         return
 
-    class_name = 'obj'
+    # add nms for vis
+    # keep = nms(dets, thresh=0.7)
+    # dets = dets[keep, :].copy()
+
+    class_name = 'person'
+
     im = im[:, :, (2, 1, 0)]
     fig, ax = plt.subplots(figsize=(12, 12))
     ax.imshow(im, aspect='equal')
