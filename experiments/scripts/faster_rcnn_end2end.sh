@@ -22,7 +22,6 @@ len=${#array[@]}
 EXTRA_ARGS=${array[@]:3:$len}
 EXTRA_ARGS_SLUG=${EXTRA_ARGS// /_}
 
-
 case $DATASET in
   pascal_voc)
     TRAIN_IMDB="voc_2007_trainval"
@@ -31,21 +30,54 @@ case $DATASET in
     ITERS=70000   
     ;;
   coco)
-    # This is a very long and slow training schedule
-    # You can probably use fewer iterations and reduce the
-    # time to the LR drop (set in the solver to 350,000 iterations).
     TRAIN_IMDB="coco_2014_train"
     TEST_IMDB="coco_2014_minival"
     PT_DIR="coco"
     ITERS=490000
     ;;
-  *)
+  caltech_all)
+    TRAIN_IMDB="caltech_all_trainval"
+    TEST_IMDB="caltech_all_test"
+    PT_DIR="caltech"
+    ITERS=90000
+    ;;
+  caltech_reasonable)
+    TRAIN_IMDB="caltech_reasonable_trainval"
+    TEST_IMDB="caltech_reasonable_test"
+    PT_DIR="caltech"
+    ITERS=70000
+    ;;
+  inria_all)
+    TRAIN_IMDB="inria_all_trainval"
+    TEST_IMDB="inria_all_test"
+    PT_DIR="caltech"
+    ITERS=60000
+    ;;
+  inria_reasonable)
+    TRAIN_IMDB="inria_reasonable_trainval"
+    TEST_IMDB="inria_reasonable_test"
+    PT_DIR="caltech"
+    ITERS=40000
+    ;;
+  eth_all)
+    TRAIN_IMDB="inria_all_trainval"
+    TEST_IMDB="inria_all_test"
+    PT_DIR="caltech"
+    ITERS=70000
+    ;;
+  eth_reasonable)
+    TRAIN_IMDB="eth_reasonable_trainval"
+    TEST_IMDB="eth_reasonable_test"
+    PT_DIR="caltech"
+    ITERS=70000
+    ;;
+    *)
     echo "No dataset given"
     exit
     ;;
 esac
 
-LOG="experiments/logs/faster_rcnn_end2end_ohem_${NET}.txt.`date +'%Y-%m-%d_%H-%M-%S'`"
+LOG="experiments/logs/${DATASET}_${NET}.txt.`date +'%Y-%m-%d_%H-%M-%S'`"
 exec &> >(tee -a "$LOG")
 echo Logging output to "$LOG"
 
