@@ -518,3 +518,7 @@ if __name__ == '__main__':
     res = d.roidb
     from IPython import embed
     embed()
+
+
+
+
