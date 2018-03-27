@@ -1,5 +1,4 @@
-name: "ResNet50"
-
+name: "ResNet-50"
 input: "data"
 input_shape {
   dim: 1
@@ -7,13 +6,11 @@ input_shape {
   dim: 224
   dim: 224
 }
-
 input: "im_info"
 input_shape {
   dim: 1
   dim: 3
 }
-
 layer {
   name: "conv1"
   bottom: "data"
@@ -27,7 +24,6 @@ layer {
     bias_term: true
   }
 }
-
 layer {
   name: "bn_conv1"
   bottom: "conv1"
@@ -1781,8 +1777,8 @@ layer {
   bottom: "rois"
   top: "roi_pool5"
   roi_pooling_param {
-    pooled_w: 7
-    pooled_h: 7
+    pooled_w: 14
+    pooled_h: 14
     spatial_scale: 0.062500
   }
 }
@@ -1795,7 +1791,7 @@ layer {
     num_output: 512
     kernel_size: 1
     pad: 0
-    stride: 1
+    stride: 2
     bias_term: false
   }
 }
@@ -1900,7 +1896,7 @@ layer {
     num_output: 2048
     kernel_size: 1
     pad: 0
-    stride: 1
+    stride: 2
     bias_term: false
   }
 }
@@ -2191,7 +2187,7 @@ layer {
   param { lr_mult: 2 decay_mult: 0 }
   inner_product_param {
      num_output: 2
-     
+     weight_filler { type: "msra" std: 0.010 }
      bias_filler { type: "constant" value: 0 }
   }
 }
@@ -2204,7 +2200,7 @@ layer {
   param { lr_mult: 2 decay_mult: 0 }
   inner_product_param {
      num_output: 8
-     
+     weight_filler { type: "msra" std: 0.010 }
      bias_filler { type: "constant" value: 0 }
   }
 }

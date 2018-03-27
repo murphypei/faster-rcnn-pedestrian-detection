@@ -440,7 +440,7 @@ layer {
   python_param {
     module: 'rpn.anchor_target_layer'
     layer: 'AnchorTargetLayer'
-    param_str: "'feat_stride': 16"
+    param_str: "'feat_stride': 8"
   }
 }
 
@@ -499,7 +499,7 @@ layer {
   python_param {
     module: 'rpn.proposal_layer'
     layer: 'ProposalLayer'
-    param_str: "'feat_stride': 16"
+    param_str: "'feat_stride': 8"
   }
 }
 
@@ -824,16 +824,6 @@ layer {
     }
   }
 }
-
-layer {  
-  name: "accuracy"  
-  type: "Accuracy"  
-  bottom: "cls_score"  
-  bottom: "labels"  
-  top: "accuracy"  
-} 
-
-
 layer {
   name: "loss_cls"
   type: "SoftmaxWithLoss"
@@ -844,7 +834,6 @@ layer {
   top: "loss_cls"
   loss_weight: 1
 }
-
 layer {
   name: "loss_bbox"
   type: "SmoothL1Loss"

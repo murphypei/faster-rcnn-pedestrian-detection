@@ -4159,6 +4159,7 @@ layer {
     }
   }
 }
+
 layer {
   name: "loss_cls"
   type: "SoftmaxWithLoss"

@@ -1,4 +1,4 @@
-train_net: "models/pascal_voc/VGG16/faster_rcnn_alt_opt/stage2_rpn_train.pt"
+train_net: "models/caltech/VGG16/faster_rcnn_alt_opt/stage2_rpn_train.pt"
 
 base_lr: 0.001
 lr_policy: "step"

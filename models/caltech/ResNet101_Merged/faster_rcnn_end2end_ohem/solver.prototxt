@@ -1,4 +1,4 @@
-train_net: "models/caltech/ResNet101_Merged/faster_rcnn_end2end_ohem/train.prototxt"
+train_net: "models/pascal_voc/ResNet101_Merged/faster_rcnn_end2end_ohem/train.prototxt"
 base_lr: 0.001
 lr_policy: "step"
 gamma: 0.1
