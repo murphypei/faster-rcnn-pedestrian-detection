@@ -23,18 +23,25 @@ EXTRA_ARGS=${array[@]:3:$len}
 EXTRA_ARGS_SLUG=${EXTRA_ARGS// /_}
 
 case $DATASET in
-  pascal_voc)
-    TRAIN_IMDB="voc_2007_trainval"
-    TEST_IMDB="voc_2007_test"
-    PT_DIR="pascal_voc"
-    ITERS=70000   
-    ;;
   coco)
     TRAIN_IMDB="coco_2014_train"
     TEST_IMDB="coco_2014_minival"
     PT_DIR="coco"
     ITERS=490000
     ;;
+  pascal_voc)
+    TRAIN_IMDB="voc_2007_trainval"
+    TEST_IMDB="voc_2007_test"
+    PT_DIR="pascal_voc"
+    ITERS=70000   
+    ;;
+
+  caltech_voc)
+    TRAIN_IMDB="voc_2007_trainval"
+    TEST_IMDB="voc_2007_test"
+    PT_DIR="caltech"
+    ITERS=70000   
+    ;;    
   caltech_all)
     TRAIN_IMDB="caltech_all_trainval"
     TEST_IMDB="caltech_all_test"

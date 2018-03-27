@@ -25,10 +25,10 @@ EXTRA_ARGS=${array[@]:3:$len}
 EXTRA_ARGS_SLUG=${EXTRA_ARGS// /_}
 
 case $DATASET in
-  pascal_voc)
+  caltech_voc)
     TRAIN_IMDB="voc_2007_trainval"
     TEST_IMDB="voc_2007_test"
-    PT_DIR="pascal_voc"
+    PT_DIR="caltech"
     ;;
   coco)
     echo "Not implemented: use experiments/scripts/faster_rcnn_end2end.sh for coco"

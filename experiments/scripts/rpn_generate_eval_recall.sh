@@ -34,7 +34,7 @@ exec &> >(tee -a "$LOG")
 echo Logging output to "$LOG"
 
 time ./tools/rpn_generate.py --gpu ${GPU_ID} \
-  --def ./models/pascal_voc/${NET}/faster_rcnn_alt_opt/rpn_test.pt \
+  --def ./models/caltech/${NET}/faster_rcnn_alt_opt/rpn_test.pt \
   --cfg ./experiments/cfgs/faster_rcnn_rpn_only.yml \
   --imdb ${TEST_IMDB} \
   ${EXTRA_ARGS}

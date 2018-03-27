@@ -30,6 +30,19 @@ case $DATASET in
     PT_DIR="pascal_voc"
     ITERS=70000   
     ;;
+  coco)
+    TRAIN_IMDB="coco_2014_train"
+    TEST_IMDB="coco_2014_minival"
+    PT_DIR="coco"
+    ITERS=490000
+    ;;  
+
+  caltech_voc)
+    TRAIN_IMDB="voc_2007_trainval"
+    TEST_IMDB="voc_2007_test"
+    PT_DIR="caltech"
+    ITERS=70000   
+    ;;
   caltech_all)
     TRAIN_IMDB="caltech_all_trainval"
     TEST_IMDB="caltech_all_test"
@@ -65,12 +78,6 @@ case $DATASET in
     TEST_IMDB="eth_reasonable_test"
     PT_DIR="caltech"
     ITERS=70000
-    ;;
-  coco)
-    TRAIN_IMDB="coco_2014_train"
-    TEST_IMDB="coco_2014_minival"
-    PT_DIR="coco"
-    ITERS=490000
     ;;
     *)
     echo "No dataset given"

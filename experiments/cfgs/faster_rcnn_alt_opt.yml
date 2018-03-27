@@ -1,3 +1,12 @@
 EXP_DIR: faster_rcnn_alt_opt
+TRAIN:
+
+  BG_THRESH_LO: 0.0
+
+  # BATCH_SIZE: 64
+  # RPN_POST_NMS_TOP_N: 600
+  # USE_OHEM: True
+  # ASPECT_GROUPING: False
+
 TEST:
   HAS_RPN: True
