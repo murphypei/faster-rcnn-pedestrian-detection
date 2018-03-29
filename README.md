@@ -20,4 +20,4 @@ The installation and useage are same as Faster R-CNN
 
 1. clone the repository and caffe submodule 
 2. build lib and caffe
-3. train your model command like: `./experiments/scripts/caltech.sh 0 ResNet50 reasonable`
+3. train your model command like: `./experiments/scripts/faster_rcnn_end2end.sh 0 ResNet50 caltech_reasonable`
