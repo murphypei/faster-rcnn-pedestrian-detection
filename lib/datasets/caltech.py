@@ -59,7 +59,7 @@ def height_filter(box, height_range={'min': 50, 'max': float('inf')}):
 
 # For boxes more visible than a speifcied range
 def visibility_filter(box, visible_range={'min': 0.65, 'max': float('inf')}):
-    
+
     occluded = box['occl']
 
     # A dirty condition to deal with the ill-formatted data.
@@ -119,9 +119,7 @@ class caltech(imdb):
         self._devkit_path = self._get_default_path() \
             if devkit_path is None else devkit_path
         self._data_path = os.path.join("data", self._devkit_path, 'data')
-        self._classes = (
-            '__background__',  
-            'person')
+        self._classes = ('__background__', 'person')
         self._class_to_ind = dict(zip(self.classes, xrange(self.num_classes)))
         annotation_path = os.path.join(self._data_path, "annotations.json")
         assert os.path.exists(annotation_path), \
@@ -159,8 +157,7 @@ class caltech(imdb):
         return image_path
 
 
-# Strategy: get the index from annotation dictionary
-
+    # Strategy: get the index from annotation dictionary
     def _load_image_set_list(self):
         image_set_file = os.path.join(self._data_path,
                                       self._image_set + '.txt')
@@ -397,8 +394,6 @@ class caltech(imdb):
     # This method write results files into Evaluation toolkit format
     def _write_caltech_results_file(self, net):
 
-        # Insert my code in the following space
-
         # The follwing nested fucntions are for smart sorting
         def atoi(text):
             return int(text) if text.isdigit() else text
@@ -413,12 +408,12 @@ class caltech(imdb):
 
         def insert_frame(target_frames,
                          file_path,
-                         start_frame=29,
-                         frame_rate=30):
+                         start_frame=0,
+                         frame_rate=1):
             file_name = file_path.split("/")[-1]
             set_num, v_num, frame_num = file_name[:-4].split("_")
             if int(frame_num) >= start_frame and int(
-                    frame_num) % frame_rate == 29:
+                    frame_num) % frame_rate == 0:
                 target_frames.setdefault(set_num, {}).setdefault(
                     v_num, []).append(file_path)
                 return 1
@@ -479,6 +474,7 @@ class caltech(imdb):
                     y = bbox[1]
                     width = bbox[2] - x
                     length = bbox[3] - y
+                    # print("frame_num: " + frame_num)
                     w.write("{},{},{},{},{},{}\n".format(
                         frame_num, x, y, width, length, score * 100))
 
@@ -509,7 +505,6 @@ class caltech(imdb):
                 current_frames += detection_to_file(
                     target_path, v_num, file_list, detect, total_frames,
                     current_frames)
-
 
 if __name__ == '__main__':
 
