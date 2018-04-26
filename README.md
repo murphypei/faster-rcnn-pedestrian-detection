@@ -21,3 +21,9 @@ The installation and useage are same as Faster R-CNN
 1. clone the repository and caffe submodule 
 2. build lib and caffe
 3. train your model command like: `./experiments/scripts/faster_rcnn_end2end.sh 0 ResNet50 caltech_reasonable`
+
+## Notices
+
+For different datasets, the interval frame rate is different, so it need to be changed.
+
+In `./lib/datasets/caltech.py`, change the `start_frame` and `frame_rate` of `insert_frame` function.
